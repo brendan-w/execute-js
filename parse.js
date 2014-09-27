@@ -14,11 +14,11 @@ String.prototype.hasAny = function(a) {
 window.__exeJS__.parse = function(lines) {
 
 	var t = {
-		CODE_SPACE:0,
-		LINE:1,
+		FREE_SPACE:0,  //normal code
+		LINE:1,        //in the middle of a line, waiting for semicolon
 		COMMENT:2,
-		OBJECT:3,
-		DECLARATION:4 //wait for opening curly brace
+		OBJECT:3,      //in object
+		DECLARATION:4, //wait for opening curly brace
 	};
 
 	var typeStack = [0];
@@ -34,8 +34,10 @@ window.__exeJS__.parse = function(lines) {
 	function isCode(js)
 	{
 		//console.log(typeStack.join(" "));
+		//console.log(js);
+
 		//do these seperately to prevent short circuiting the &&
-		var current = inType(t.CODE_SPACE);
+		var current = inType(t.FREE_SPACE);
 		var processed = process(preprocess(js));
 		return current && processed;
 	}
@@ -65,7 +67,7 @@ window.__exeJS__.parse = function(lines) {
 
 			//search for the opening curly
 			if(js.has('{'))
-				pushType(t.CODE_SPACE); //found, go directly into another code space
+				pushType(t.FREE_SPACE); //found, go directly into another code space
 			else
 				pushType(t.DECLARATION); //wait for curly (prob. on next line)
 
@@ -82,17 +84,21 @@ window.__exeJS__.parse = function(lines) {
 			if(js.has('{'))
 			{
 				popType(); //remove the declaration type
-				pushType(t.CODE_SPACE);
+				pushType(t.FREE_SPACE);
 			}
 		}
 		else
 		{
-			if(js.has('}'))
+			if(js.has('}') && !js.has("{"))
 			{
 				popType();
 				return false;
 			}
-			else
+			else if(js.has('{') && !js.has("}"))
+			{
+				pushType(t.OBJECT);
+			}
+			else if(!inType(t.OBJECT))
 			{
 				pushType(t.LINE);
 			}
