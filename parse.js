@@ -11,7 +11,7 @@ String.prototype.hasAny = function(a) {
 	return false;
 };
 
-window.__exeJS__.parse = function(lines, senseLine) {
+window.__exeJS__.parse = function(lines) {
 
 	var t = {
 		CODE_SPACE:0,
@@ -26,13 +26,18 @@ window.__exeJS__.parse = function(lines, senseLine) {
 	function pushType(t) { typeStack.push(t); }
 	function popType() { return typeStack.pop(); }
 
+
+	//create the callback for a given line number
+	function senseLine(num) { return "__exeJS__.l(" + num + ");\n"; }
+
+
 	function isCode(js)
 	{
-		console.log(typeStack.join(" "));
+		//console.log(typeStack.join(" "));
 		//do these seperately to prevent short circuiting the &&
 		var current = inType(t.CODE_SPACE);
-		var line = process(preprocess(js));
-		return current && line;
+		var processed = process(preprocess(js));
+		return current && processed;
 	}
 
 	function process(js)
@@ -63,6 +68,14 @@ window.__exeJS__.parse = function(lines, senseLine) {
 				pushType(t.CODE_SPACE); //found, go directly into another code space
 			else
 				pushType(t.DECLARATION); //wait for curly (prob. on next line)
+
+			//else statements are the only block statement where we DON'T want sensing
+			if(js.has("else"))
+				return false;
+		}
+		else if(js.hasAny(["case", "default"]))
+		{
+			return false;
 		}
 		else if(inType(t.DECLARATION))
 		{
@@ -114,7 +127,7 @@ window.__exeJS__.parse = function(lines, senseLine) {
 	var js = '';
 	lines.forEach(function(v, i) {
 		if(isCode(v))
-			js += senseLine(i);
+			js += senseLine(i + 1);
 		js += v + '\n';
 	});
 

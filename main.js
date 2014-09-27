@@ -3,7 +3,8 @@
 window.__exeJS__ = {
 
 	//line numbers, in sequence, as they happen
-	events:[],
+	lineEvents:[],
+	lineTotals:[],
 
 	htmlEntities:[
 		['&', '&amp;'],
@@ -11,9 +12,17 @@ window.__exeJS__ = {
 		['>', '&gt;']
 	],
 
+
 	//the callback used for measuring line position
-	l:function(num) { __exeJS__.events.push(num); },
-	senseLine:function(num) { return "__exeJS__.l(" + num + ");\n"; },
+	l:function(num) {
+		__exeJS__.lineEvents.push(num);
+		if(__exeJS__.lineTotals[num] == undefined)
+			__exeJS__.lineTotals[num] = 1;
+		else
+			__exeJS__.lineTotals[num]++;
+	},
+
+
 
 	//checks for name collisions with __exeJS__ (apparently, case insensitive regex is the fastest)
 	isValid:function(js) { return !(/__exeJS__/i.test(js)); },
@@ -23,7 +32,7 @@ window.__exeJS__ = {
 	init:function(js) {
 		var lines = js.split('\n');
 		__exeJS__.display(lines);
-		js = __exeJS__.parse(lines, __exeJS__.senseLine); //parsing mechanism found in parse.js
+		js = __exeJS__.parse(lines); //parsing mechanism found in parse.js
 		__exeJS__.exec(js);
 	},
 
@@ -54,6 +63,7 @@ window.__exeJS__ = {
 		//__exeJS__.events = [];
 		eval(js);
 		//__exeJS__.animate();
+		console.log(__exeJS__.lineEvents.join(" "));
 	},
 
 	animate:function() {
