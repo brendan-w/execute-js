@@ -23,7 +23,7 @@ window.__exeJS__ = {
 	init:function(js) {
 		var lines = js.split('\n');
 		__exeJS__.display(lines);
-		js = __exeJS__.parse(lines);
+		js = __exeJS__.parse(lines, __exeJS__.senseLine); //parsing mechanism found in parse.js
 		__exeJS__.exec(js);
 	},
 
@@ -47,22 +47,7 @@ window.__exeJS__ = {
 			str = str.replace(v[0], v[1]);
 		});
 		return str;
-	},
-
-	//preprocessor
-	parse:function(lines) {
-		var js = '';
-		lines.forEach(function(v, i) {
-			if(__exeJS__.isCode(v))
-				js += __exeJS__.senseLine(i);
-			js += v + "\n";
-		});
-		return js;
-	},
-
-	isCode:function(js) {
-		return false;
-	},
+	}, 
 
 	exec:function(js) {
 		console.log("execute");
