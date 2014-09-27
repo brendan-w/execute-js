@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+	<head>
+		<!-- META -->
+		<meta charset='utf-8'/>
+		<meta name="author" content="Brendan Whitfield">
+
+		<title>Execute JS | code visualizer</title>
+
+		<!-- CSS -->
+		<link rel='stylesheet' type='text/css' href='reset.css'>
+		<link rel='stylesheet' type='text/css' href='style.css'>
+
+		<!-- JS -->
+		<script type="text/javascript" src='js/main.js'></script>
+	</head>
+	<body>
+		<section id="main">
+			<header>
+				<h3>Execute</h3>
+				<h1 class="red">JS</h1>
+			</header>
+			<div>
+				<input type="text">
+				<button>Exe</button>
+			</div>
+			<footer>&copy; 2014 Brendan Whitfield</footer>
+		</section>
+		<section id="scroll">
+			asdf
+		</section>
+
+		<section id="code">
+<pre><span>1</span>var $window;</pre>
+<pre><span>2</span>var $header;</pre>
+<pre><span>3</span>var $selector;</pre>
+<pre><span>4</span>var $page;</pre>
+<pre><span>5</span>var $navLinks;</pre>
+<pre><span>6</span>var $listLinks;</pre>
+<pre><span>7</span>var $sections;</pre>
+<pre><span>8</span>var $footer;</pre>
+<pre><span>9</span>var $interact;</pre>
+<pre><span>10</span></pre>
+<pre class="bk-red"><span>11</span>var thisPage;</pre>
+<pre><span>12</span>var narrow;</pre>
+<pre><span>13</span>var redirectWait = 0;</pre>
+<pre><span>14</span></pre>
+<pre><span>15</span>$(window).load(init);</pre>
+<pre><span>16</span></pre>
+<pre><span>17</span>function init()</pre>
+<pre><span>18</span>{</pre>
+<pre><span>19</span>	setVars();</pre>
+<pre><span>20</span>	layout();</pre>
+<pre><span>21</span>	listen();</pre>
+<pre><span>22</span>	footer();</pre>
+<pre><span>23</span></pre>
+<pre><span>24</span>	fadeIn();</pre>
+<pre><span>25</span></pre>
+<pre><span>26</span>	/*</pre>
+<pre><span>27</span>	console.log($(window).outerWidth());</pre>
+<pre><span>28</span>	console.log(window.innerWidth);</pre>
+<pre><span>29</span>	*/</pre>
+<pre><span>30</span>}</pre>
+		</section>
+	</body>
+ </html>
