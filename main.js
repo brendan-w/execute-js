@@ -12,7 +12,7 @@ window.__exeJS__ = {
 	],
 
 	//the callback used for measuring line position
-	l:function(num) { events.push(num); },
+	l:function(num) { __exeJS__.events.push(num); },
 	senseLine:function(num) { return "__exeJS__.l(" + num + ");\n"; },
 
 	//checks for name collisions with __exeJS__ (apparently, case insensitive regex is the fastest)
