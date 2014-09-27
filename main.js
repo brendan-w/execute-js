@@ -121,7 +121,7 @@ window.onload = function() {
 		{
 			document.querySelector("#entry").style.display = "none";
 			document.querySelector("#code").style.display = "block";
-			document.querySelector("#run").style.display = "block";
+			document.querySelector("#tools").style.display = "block";
 			__exeJS__.init(js);
 		}
 		else

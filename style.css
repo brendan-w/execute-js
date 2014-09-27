@@ -106,12 +106,13 @@ button
 button:hover { background-color: rgb(220,40,40); }
 button:active { padding:3px 9px 1px 11px; }
 
+#tools { display:none; }
+
 /* align the command bar */
 #run
 {
 	overflow:hidden;
 	padding:100px 0px;
-	display:none;
 }
 #run button { float:right; }
 #run input { width:100%; }
