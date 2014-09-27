@@ -82,7 +82,7 @@ window.__exeJS__ = {
 	animate:function() {
 		var prev = null;
 		var i = 0;
-		var timer = setInterval(next, 100);
+		var timer = setInterval(next, 80);
 
 		function getLineElem(l) { return document.querySelector("pre#l"+l); }
 
@@ -90,11 +90,11 @@ window.__exeJS__ = {
 		{
 			if(i < __exeJS__.lineEvents.length)
 			{
-				var current = getLineElem(__exeJS__.lineEvents[i]);
-				current.className = "bk-red";
-
 				if(prev != null)
 					prev.className = "";
+
+				var current = getLineElem(__exeJS__.lineEvents[i]);
+				current.className = "bk-red";
 
 				prev = current;
 			}
