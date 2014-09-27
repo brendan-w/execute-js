@@ -1,5 +1,10 @@
 /*
 	welcome to the hacky JS parser
+	this does not truly parse JS. It only deals with:
+		-semicolons
+		-keywords
+		-curlybraces
+		-comments
 */
 
 String.prototype.has = function(x) { return (new RegExp(x, "i")).test(this); };
@@ -46,9 +51,17 @@ window.__exeJS__.parse = function(lines) {
 	{
 		if(js == "") return false;
 
+		//handle block comments
+		if(js.has("/\\*"))
+			pushType(t.COMMENT);
+		else if(js.has("\\*/"))
+			popType();
+
+		if(inType(t.COMMENT)) return false;
+
 		//semicolons are gold
 		//find gold
-		if(js.substr(js.length - 1) == ";")
+		if(js[js.length - 1] == ';')
 		{
 			if(inType(t.LINE)) //this is ending a multi-line line	
 			{
@@ -69,7 +82,7 @@ window.__exeJS__.parse = function(lines) {
 			if(js.has('{'))
 				pushType(t.FREE_SPACE); //found, go directly into another code space
 			else
-				pushType(t.DECLARATION); //wait for curly (prob. on next line)
+				pushType(t.DECLARATION); //wait for curly (probably on next line)
 
 			//else statements are the only block statement where we DON'T want sensing
 			if(js.has("else"))
