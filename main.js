@@ -30,10 +30,21 @@ window.__exeJS__ = {
 
 
 	init:function(js) {
-		var lines = js.split('\n');
-		__exeJS__.display(lines);
-		js = __exeJS__.parse(lines); //parsing mechanism found in parse.js
-		__exeJS__.exec(js);
+		if(window.location.hash == "#debug")
+		{
+			//print debug lines
+			var lines = js.split('\n');
+			js = __exeJS__.parse(lines);
+			lines = js.split('\n');
+			__exeJS__.display(lines);
+		}
+		else //normal execution
+		{
+			var lines = js.split('\n');
+			__exeJS__.display(lines);
+			js = __exeJS__.parse(lines); //parsing mechanism found in parse.js
+			__exeJS__.exec(js);
+		}
 	},
 
 	display:function(lines) {

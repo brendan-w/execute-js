@@ -149,7 +149,5 @@ window.__exeJS__.parse = function(lines) {
 			js += senseLine(i + 1);
 		js += v + '\n';
 	});
-
-	console.log(js);
 	return js;
 };
