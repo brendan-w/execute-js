@@ -13,7 +13,7 @@ window.__exeJS__ = {
 
 	//the callback used for measuring line position
 	l:function(num) { events.push(num); },
-	callForLine:function(num) { return "__exeJS__.l(" + num + ");\n"; },
+	senseLine:function(num) { return "__exeJS__.l(" + num + ");\n"; },
 
 	//checks for name collisions with __exeJS__ (apparently, case insensitive regex is the fastest)
 	isValid:function(js) { return !(/__exeJS__/i.test(js)); },
@@ -53,15 +53,21 @@ window.__exeJS__ = {
 	parse:function(lines) {
 		var js = '';
 		lines.forEach(function(v, i) {
+			if(__exeJS__.isCode(v))
+				js += __exeJS__.senseLine(i);
 			js += v + "\n";
 		});
 		return js;
 	},
 
+	isCode:function(js) {
+		return false;
+	},
+
 	exec:function(js) {
 		console.log("execute");
 		//__exeJS__.events = [];
-		//eval(js);
+		eval(js);
 		//__exeJS__.animate();
 	},
 
