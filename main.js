@@ -58,6 +58,7 @@ window.__exeJS__ = {
 			p.appendChild(c);
 			s.innerHTML = (i+1);
 			c.innerHTML = __exeJS__.escape(v);
+			p.id = "l" + (i + 1);
 			code.appendChild(p);
 		});
 	},
@@ -71,13 +72,41 @@ window.__exeJS__ = {
 
 	exec:function(js) {
 		console.log("execute");
-		//__exeJS__.events = [];
+		__exeJS__.lineEvents = [];
+		__exeJS__.lineTotals = [];
 		eval(js);
-		//__exeJS__.animate();
+		__exeJS__.animate();
 		console.log(__exeJS__.lineEvents.join(" "));
 	},
 
 	animate:function() {
+		var prev = null;
+		var i = 0;
+		var timer = setInterval(next, 100);
+
+		function getLineElem(l) { return document.querySelector("pre#l"+l); }
+
+		function next()
+		{
+			if(i < __exeJS__.lineEvents.length)
+			{
+				var current = getLineElem(__exeJS__.lineEvents[i]);
+				current.className = "bk-red";
+
+				if(prev != null)
+					prev.className = "";
+
+				prev = current;
+			}
+			else
+			{
+				clearInterval(timer);
+
+				if(prev != null)
+					prev.className = "";
+			}
+			i++;
+		}
 
 	}
 };

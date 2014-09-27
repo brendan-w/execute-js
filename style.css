@@ -65,6 +65,7 @@ section
 #code
 {
 	width:60%;
+	overflow: hidden;
 	position: relative;
 	left:30%;
 	display: none;

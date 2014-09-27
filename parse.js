@@ -133,6 +133,8 @@ window.__exeJS__.parse = function(lines) {
 		js = js.replace(/\".*\"/g, ""); /*.**/
 		//remove single-quote string literals, in case they contain keywords
 		js = js.replace(/\'.*\'/g, "");
+		//remove regex patterns
+		//js = js.replace(//g, "");
 		//shrink all whitespace down to single char
 		js = js.replace(/\s+/g, ' ');
 		//trim on last time, in case the deletions left space
