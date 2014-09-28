@@ -11,8 +11,12 @@ h4 { font-size: 20pt; }
 h5 { font-size: 16pt; }
 h6 { font-size: 14pt; }
 
-.red    {            color:rgb(200,0,40); } /* hsl(348,100,78) */
-.bk-red { background-color:rgb(200,0,40) !important;}
+.red    {            color:rgb(200,0,40); }
+.bk-red { background-color:rgb(200,0,40); }
+
+/* the "exe" class, denoting the running line */
+pre.exe      { background-color:rgb(200,0,40) !important; }
+pre.exe span { background-color:rgb(200,0,40) !important; }
 
 pre,
 .mono { font-family: monospace; }
@@ -161,8 +165,10 @@ pre
 	line-height: 1.1em;
 	background-color: white;
 
+	/*
 	-webkit-transition:background-color 0.1s;
 	transition:background-color 0.1s;
+	*/
 }
 
 pre > span

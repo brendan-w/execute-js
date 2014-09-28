@@ -54,7 +54,7 @@ window.__exeJS__ = {
 			c.innerHTML = __exeJS__.util.escape(v);
 			p.id = "l" + (i + 1);
 			code.appendChild(p);
-			__exeJS__.lineElements[i] = (p);
+			__exeJS__.lineElements[i + 1] = (p);
 		});
 	},
 
@@ -71,17 +71,22 @@ window.__exeJS__ = {
 
 	animate:function() {
 
-		var events = __exeJS__.lineEvents;
+		var events   = __exeJS__.lineEvents;
 		var elements = __exeJS__.lineElements;
-
-		var largest = 0;
-		__exeJS__.lineTotals.forEach(function(v) {
-			if(v > largest) largest = v;
-		});
+		var totals   = __exeJS__.lineTotals;
+		var largest  = __exeJS__.util.findLargest(totals);
 
 		var i = 0;
+		var counts = [];
 		var timer = setInterval(next, 60);
 
+		function increment(line)
+		{
+			if(counts[line] == undefined)
+				counts[line] = 1;
+			else
+				counts[line]++;
+		}
 
 		function next()
 		{
@@ -99,9 +104,11 @@ window.__exeJS__ = {
 			if(prevLine != null)
 				prevLine.className = "";
 			
-			//handle the current line
-			line.className = "bk-red";
-
+			//enable the current line
+			line.className = "exe";
+			increment(events[i]);
+			var p = __exeJS__.util.map(counts[events[i]], 0, largest, 0, 1);
+			line.style.backgroundColor = __exeJS__.util.getColor(p);
 
 			i++;
 		}
