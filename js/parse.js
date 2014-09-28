@@ -7,6 +7,8 @@
 		-comments
 */
 
+
+//usefull string things
 String.prototype.has = function(x) { return (new RegExp(x, "i")).test(this); };
 String.prototype.hasAny = function(a) {
 	for(var i = 0; i < a.length; i++)
@@ -15,6 +17,7 @@ String.prototype.hasAny = function(a) {
 	}
 	return false;
 };
+
 
 window.__exeJS__.parse = function(lines) {
 
@@ -26,16 +29,16 @@ window.__exeJS__.parse = function(lines) {
 		DECLARATION:4, //wait for opening curly brace
 	};
 
+	//stack functions
 	var typeStack = [0];
-	function inType(t) { return typeStack.slice(-1)[0] == t; }
+	function inType(t)   { return typeStack.slice(-1)[0] == t; }
+	function popType()   { return typeStack.pop(); }
 	function pushType(t) { typeStack.push(t); }
-	function popType() { return typeStack.pop(); }
-
 
 	//create the callback for a given line number
 	function senseLine(num) { return "__exeJS__.l(" + num + ");\n"; }
 
-
+	//called for every line, returns whether or not to inject a sensor statement above this line
 	function isCode(js)
 	{
 		//console.log(typeStack.join(" "));
@@ -47,6 +50,8 @@ window.__exeJS__.parse = function(lines) {
 		return current && processed;
 	}
 
+	//adjusts the typeStack for this line of JS
+	//returns a boolean that can veto this line as a candidate for a sensor
 	function process(js)
 	{
 		if(js == "") return false;
@@ -120,11 +125,9 @@ window.__exeJS__.parse = function(lines) {
 		return true;
 	}
 
-	//pre-formats js strings, removing things like spaces, comments, and strings
+	//pre-formats JS strings, for parsing
 	function preprocess(js)
 	{
-		//remove whitespace on either end
-		js = js.trim();
 		//remove single-line comments
 		js = js.replace(/\/\/.*/g, ""); //.*
 		//remove multi-line comments on a single line
@@ -133,11 +136,11 @@ window.__exeJS__.parse = function(lines) {
 		js = js.replace(/\".*\"/g, ""); /*.**/
 		//remove single-quote string literals, in case they contain keywords
 		js = js.replace(/\'.*\'/g, "");
-		//remove regex patterns
-		//js = js.replace(//g, "");
+		//remove regex patterns (yes, this will also remove " a/b/c" calcs, but we don't need those anyway)
+		js = js.replace(/\/.*\//g, "");
 		//shrink all whitespace down to single char
-		js = js.replace(/\s+/g, ' ');
-		//trim on last time, in case the deletions left space
+		js = js.replace(/\s+/g, " ");
+		//remove whitespace on either end (do this last, in case the deletions left space)
 		js = js.trim();
 
 		return js;

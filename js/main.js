@@ -5,13 +5,7 @@ window.__exeJS__ = {
 	//line numbers, in sequence, as they happen
 	lineEvents:[],
 	lineTotals:[],
-
-	htmlEntities:[
-		['&', '&amp;'],
-		['<', '&lt;'],
-		['>', '&gt;']
-	],
-
+	lineElements:[],
 
 	//the callback used for measuring line position
 	l:function(num) {
@@ -57,18 +51,13 @@ window.__exeJS__ = {
 			p.appendChild(s);
 			p.appendChild(c);
 			s.innerHTML = (i+1);
-			c.innerHTML = __exeJS__.escape(v);
+			c.innerHTML = __exeJS__.util.escape(v);
 			p.id = "l" + (i + 1);
 			code.appendChild(p);
+			__exeJS__.lineElements[i] = (p);
 		});
 	},
 
-	escape:function(str) {
-		__exeJS__.htmlEntities.forEach(function(v) {
-			str = str.replace(v[0], v[1]);
-		});
-		return str;
-	}, 
 
 	exec:function(js) {
 		console.log("execute");
@@ -76,37 +65,48 @@ window.__exeJS__ = {
 		__exeJS__.lineTotals = [];
 		eval(js);
 		__exeJS__.animate();
-		console.log(__exeJS__.lineEvents.join(" "));
 	},
 
-	animate:function() {
-		var prev = null;
-		var i = 0;
-		var timer = setInterval(next, 80);
 
-		function getLineElem(l) { return document.querySelector("pre#l"+l); }
+
+	animate:function() {
+
+		var events = __exeJS__.lineEvents;
+		var elements = __exeJS__.lineElements;
+
+		var largest = 0;
+		__exeJS__.lineTotals.forEach(function(v) {
+			if(v > largest) largest = v;
+		});
+
+		var i = 0;
+		var timer = setInterval(next, 60);
+
 
 		function next()
 		{
-			if(i < __exeJS__.lineEvents.length)
-			{
-				if(prev != null)
-					prev.className = "";
-
-				var current = getLineElem(__exeJS__.lineEvents[i]);
-				current.className = "bk-red";
-
-				prev = current;
-			}
-			else
+			if(i >= __exeJS__.lineEvents.length)
 			{
 				clearInterval(timer);
-
-				if(prev != null)
-					prev.className = "";
+				elements[events[events.length - 1]].className = "";
+				return;
 			}
+
+			var prevLine = (i > 0) ? elements[events[i - 1]] : null;
+			var line = elements[events[i]];
+
+			//disable the previous line
+			if(prevLine != null)
+				prevLine.className = "";
+			
+			//handle the current line
+			line.className = "bk-red";
+
+
 			i++;
 		}
+
+
 
 	}
 };
@@ -122,6 +122,8 @@ window.onload = function() {
 			document.querySelector("#entry").style.display = "none";
 			document.querySelector("#code").style.display = "block";
 			document.querySelector("#tools").style.display = "block";
+			document.onkeypress = function(e) { if(e.keyCode == 13) exe(); };
+
 			__exeJS__.init(js);
 		}
 		else
@@ -131,8 +133,11 @@ window.onload = function() {
 	};
 
 	//the exe button
-	document.querySelector("#exe").onclick = function() {
+	document.querySelector("#exe").onclick = exe;
+
+	function exe()
+	{
 		var js = document.querySelector("#command").value;
 		__exeJS__.exec(js);
-	};
+	}
 };

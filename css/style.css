@@ -11,8 +11,8 @@ h4 { font-size: 20pt; }
 h5 { font-size: 16pt; }
 h6 { font-size: 14pt; }
 
-.red    {            color:rgb(200,0,40); }
-.bk-red { background-color:rgb(200,0,40); }
+.red    {            color:rgb(200,0,40); } /* hsl(348,100,78) */
+.bk-red { background-color:rgb(200,0,40) !important;}
 
 pre,
 .mono { font-family: monospace; }
@@ -160,11 +160,16 @@ pre
 	height: 1.1em; /* empty lines still consume height */
 	line-height: 1.1em;
 	background-color: white;
+
+	-webkit-transition:background-color 0.1s;
+	transition:background-color 0.1s;
 }
 
 pre > span
 {
 	display: inline-block;
+	height: inherit;
+	line-height: inherit;
 	width:2.5em;
 	padding-right:5px;
 	margin-right: 5px;
