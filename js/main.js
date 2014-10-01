@@ -64,8 +64,10 @@
 
 
 	window.__exeJS__.displayGradient = new window.__exeJS__.gradient([
-		{ r:255, g:255, b:255 },
-		{ r:200, g:0,   b:40  }
+		{r:245, g:245, b:245},
+		{r:255, g:255, b:76},
+		{r:255, g:145, b:35},
+		{r:255, g:30, b:30}
 	]);
 
 
