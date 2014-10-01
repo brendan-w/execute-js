@@ -1,41 +1,29 @@
 
-window.__exeJS__.util = {
+window.__exeJS__.htmlEntities = [
+	['&', '&amp;'],
+	['<', '&lt;'],
+	['>', '&gt;']
+];
 
-	htmlEntities:[
-		['&', '&amp;'],
-		['<', '&lt;'],
-		['>', '&gt;']
-	],
+window.__exeJS__.escape = function(str) {
+	__exeJS__.htmlEntities.forEach(function(v) {
+		str = str.replace(v[0], v[1]);
+	});
+	return str;
+};
 
-	escape:function(str) {
-		__exeJS__.util.htmlEntities.forEach(function(v) {
-			str = str.replace(v[0], v[1]);
-		});
-		return str;
-	}, 
-	
-	map:function(x, in_min, in_max, out_min, out_max) {
-		return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-	},
+window.__exeJS__.toCSS = function(c) {
+	return "rgb(" + Math.floor(c.r) + "," + Math.floor(c.g) + "," + Math.floor(c.b) + ")";
+}
 
-	getColor:function(p) {
-		var c = {};
+window.__exeJS__.map = function(x, in_min, in_max, out_min, out_max) {
+	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+};
 
-		var color_a = { r:255, g:255, b:255 };
-		var color_b = { r:200, g:0,   b:40   };
-
-		c.r = Math.floor((color_a.r * (1 - p)) + (color_b.r * p));
-		c.g = Math.floor((color_a.g * (1 - p)) + (color_b.g * p));
-		c.b = Math.floor((color_a.b * (1 - p)) + (color_b.b * p));
-		return "rgb(" + c.r + "," + c.g + "," + c.b + ")";
-	},
-
-	findLargest:function(array) {
-		var largest = 0;
-		array.forEach(function(v) {
-			if(v > largest) largest = v;
-		});
-		return largest;
-	}
-
+window.__exeJS__.findLargest = function(array) {
+	var largest = 0;
+	array.forEach(function(v) {
+		if(v > largest) largest = v;
+	});
+	return largest;
 };

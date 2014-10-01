@@ -1,29 +1,24 @@
 
-
-window.__exeJS__ = {
-
 	//line numbers, in sequence, as they happen
-	lineEvents:[],
-	lineTotals:[],
-	lineElements:[],
+	window.__exeJS__.lineEvents = [],
+	window.__exeJS__.lineTotals = [],
+	window.__exeJS__.lineElements = [],
 
 	//the callback used for measuring line position
-	l:function(num) {
+	window.__exeJS__.l = function(num) {
 		__exeJS__.lineEvents.push(num);
 		if(__exeJS__.lineTotals[num] == undefined)
 			__exeJS__.lineTotals[num] = 1;
 		else
 			__exeJS__.lineTotals[num]++;
-	},
-
+	};
 
 
 	//checks for name collisions with __exeJS__ (apparently, case insensitive regex is the fastest)
-	isValid:function(js) { return !(/__exeJS__/i.test(js)); },
+	window.__exeJS__.isValid = function(js) { return !(/__exeJS__/i.test(js)); };
 
 
-
-	init:function(js) {
+	window.__exeJS__.init = function(js) {
 		if(window.location.hash == "#debug")
 		{
 			//print debug lines
@@ -39,9 +34,9 @@ window.__exeJS__ = {
 			js = __exeJS__.parse(lines); //parsing mechanism found in parse.js
 			__exeJS__.exec(js);
 		}
-	},
+	};
 
-	display:function(lines) {
+	window.__exeJS__.display = function(lines) {
 		var code = document.querySelector("#code");
 
 		lines.forEach(function(v, i) {
@@ -51,30 +46,35 @@ window.__exeJS__ = {
 			p.appendChild(s);
 			p.appendChild(c);
 			s.innerHTML = (i+1);
-			c.innerHTML = __exeJS__.util.escape(v);
+			c.innerHTML = __exeJS__.escape(v);
 			p.id = "l" + (i + 1);
 			code.appendChild(p);
 			__exeJS__.lineElements[i + 1] = (p);
 		});
-	},
+	};
 
 
-	exec:function(js) {
+	window.__exeJS__.exec = function(js) {
 		console.log("execute");
 		__exeJS__.lineEvents = [];
 		__exeJS__.lineTotals = [];
 		eval(js);
 		__exeJS__.animate();
-	},
+	};
 
 
+	window.__exeJS__.displayGradient = new window.__exeJS__.gradient([
+		{ r:255, g:255, b:255 },
+		{ r:200, g:0,   b:40  }
+	]);
 
-	animate:function() {
+
+	window.__exeJS__.animate = function() {
 
 		var events   = __exeJS__.lineEvents;
 		var elements = __exeJS__.lineElements;
 		var totals   = __exeJS__.lineTotals;
-		var largest  = __exeJS__.util.findLargest(totals);
+		var largest  = __exeJS__.findLargest(totals);
 
 		var i = 0;
 		var counts = [];
@@ -107,16 +107,13 @@ window.__exeJS__ = {
 			//enable the current line
 			line.className = "exe";
 			increment(events[i]);
-			var p = __exeJS__.util.map(counts[events[i]], 0, largest, 0, 1);
-			line.style.backgroundColor = __exeJS__.util.getColor(p);
+			var p = __exeJS__.map(counts[events[i]], 0, largest, 0, 1);
+			var color = window.__exeJS__.displayGradient.get(p);
+			line.style.backgroundColor = __exeJS__.toCSS(color);
 
 			i++;
 		}
-
-
-
-	}
-};
+	};
 
 
 window.onload = function() {
