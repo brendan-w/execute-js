@@ -14,7 +14,7 @@ window.__exeJS__.escape = function(str) {
 
 window.__exeJS__.toCSS = function(c) {
 	return "rgb(" + Math.floor(c.r) + "," + Math.floor(c.g) + "," + Math.floor(c.b) + ")";
-}
+};
 
 window.__exeJS__.map = function(x, in_min, in_max, out_min, out_max) {
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;

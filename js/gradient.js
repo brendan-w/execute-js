@@ -1,5 +1,5 @@
 
-window.__exeJS__.gradient = function(colors) {
+window.__exeJS__.gradient = function(init_stops) {
 
 	var stops = [];
 
@@ -58,11 +58,10 @@ window.__exeJS__.gradient = function(colors) {
 	//constructor
 	var that = this;
 
-	if(colors instanceof Array)
+	if(init_stops instanceof Array)
 	{
-		colors.forEach(function(v, i) {
-			var p = i / (colors.length - 1);
-			that.addStop(v, p);
+		init_stops.forEach(function(v) {
+			that.addStop(v.color, v.p);
 		});
 	}
 
