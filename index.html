@@ -15,6 +15,16 @@
 		<script type="text/javascript">
 			window.__exeJS__ = {}; //everything should be encapsulated in here
 		</script>
+
+		<!-- UglifyJS2 -->
+		<script type="text/javascript" src='js/uglify/utils.js'></script>
+		<script type="text/javascript" src='js/uglify/ast.js'></script>
+		<script type="text/javascript" src='js/uglify/parse.js'></script>
+		<script type="text/javascript" src='js/uglify/output.js'></script>
+		<script type="text/javascript" src='js/uglify/scope.js'></script>
+		<script type="text/javascript" src='js/uglify/transform.js'></script>
+
+		<!-- exeJS -->
 		<script type="text/javascript" src='js/util.js'></script>
 		<script type="text/javascript" src='js/gradient.js'></script>
 		<script type="text/javascript" src='js/parse.js'></script>
@@ -47,7 +57,7 @@
 
 		<section id="entry">
 			<h6>Enter the JavaScript you wish to observe</h6>
-			<textarea class="mono" rows="20" placeholder="var x = 0;"></textarea>
+			<textarea class="mono" rows="10" placeholder="var x = 0;"></textarea>
 			<button id="start">Start</button>
 			<span id="error" class="red">You JavaScript must not contain the variable name __exeJS__</span>
 		</section>

@@ -31,8 +31,13 @@
 		{
 			var lines = js.split('\n');
 			__exeJS__.display(lines);
-			js = __exeJS__.parse(lines); //parsing mechanism found in parse.js
-			__exeJS__.exec(js);
+
+			var ast = parse("if(true)\n{\nvar x = 0; var b = 3;}else\n{\nvar y = 1;\n}\n");
+			console.log(ast);
+			console.log(ast.print_to_string({ beautify: true }));
+
+			//js = __exeJS__.parse(lines); //parsing mechanism found in parse.js
+			//__exeJS__.exec(js);
 		}
 	};
 

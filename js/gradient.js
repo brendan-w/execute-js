@@ -64,6 +64,4 @@ window.__exeJS__.gradient = function(init_stops) {
 			that.addStop(v.color, v.p);
 		});
 	}
-
-	console.log(stops);
 };
