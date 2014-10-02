@@ -57,6 +57,11 @@
 
  ***********************************************************************/
 
+
+//start __exeJS__ wrapper
+window.__exeJS__.parse = (function() {
+
+
 /* -----[ Tokenizer (constants) ]----- */
 
 var KEYWORDS = array_to_hash([
@@ -1367,6 +1372,30 @@ exports.set_logger = function(logger) {
     warn = logger;
 };
 */
+
+//refactored exports
+return {
+    tokenizer : tokenizer,
+    parse : parse,
+    slice : slice,
+    curry : curry,
+    member : member,
+    array_to_hash : array_to_hash,
+    PRECEDENCE : PRECEDENCE,
+    KEYWORDS_ATOM : KEYWORDS_ATOM,
+    RESERVED_WORDS : RESERVED_WORDS,
+    KEYWORDS : KEYWORDS,
+    ATOMIC_START_TOKEN : ATOMIC_START_TOKEN,
+    OPERATORS : OPERATORS,
+    is_alphanumeric_char : is_alphanumeric_char,
+    is_identifier_start : is_identifier_start,
+    is_identifier_char : is_identifier_char,
+    set_logger : function(logger) {
+        warn = logger;
+    }
+};
+
+})(); //end __exeJS__ wrapper
 
 // Local variables:
 // js-indent-level: 4

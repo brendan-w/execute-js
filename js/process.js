@@ -57,6 +57,11 @@
     SUCH DAMAGE.
 
  ***********************************************************************/
+
+
+//start __exeJS__ wrapper
+window.__exeJS__.process = (function() {
+
 /*
 var = require("./parse-js"),
     curry = curry,
@@ -66,6 +71,16 @@ var = require("./parse-js"),
     PRECEDENCE = PRECEDENCE,
     OPERATORS = OPERATORS;
 */
+
+//refactored imports
+var curry = __exeJS__.parse.curry;
+var slice = __exeJS__.parse.slice;
+var member = __exeJS__.parse.member;
+var array_to_hash = __exeJS__.parse.array_to_hash;
+var is_identifier_char = __exeJS__.parse.is_identifier_char;
+var PRECEDENCE = __exeJS__.parse.PRECEDENCE;
+var OPERATORS = __exeJS__.parse.OPERATORS;
+
 
 /* -----[ helper for AST traversal ]----- */
 
@@ -2116,6 +2131,21 @@ exports.MAP = MAP;
 // keep this last!
 exports.ast_squeeze_more = require("./squeeze-more").ast_squeeze_more;
 */
+
+return {
+    ast_walker : ast_walker,
+    ast_mangle : ast_mangle,
+    ast_squeeze : ast_squeeze,
+    ast_lift_variables : ast_lift_variables,
+    gen_code : gen_code,
+    ast_add_scope : ast_add_scope,
+    make_string : make_string,
+    split_lines : split_lines,
+    MAP : MAP,
+    set_logger : function(logger) { warn = logger }
+};
+
+})(); //end __exeJS__ wrapper
 
 // Local variables:
 // js-indent-level: 4

@@ -32,11 +32,12 @@
 			var lines = js.split('\n');
 			__exeJS__.display(lines);
 			
-			var tree = parse(js);
+
+			var tree = __exeJS__.parse.parse(js);
 			console.log(tree);
-			js = gen_code(tree);
+			js = __exeJS__.process.gen_code(tree);
 			console.log(js);
-			
+
 			//js = __exeJS__.parse(lines); //parsing mechanism found in parse.js
 			__exeJS__.exec(js);
 		}
