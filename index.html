@@ -17,7 +17,11 @@
 		</script>
 		<script type="text/javascript" src='js/util.js'></script>
 		<script type="text/javascript" src='js/gradient.js'></script>
-		<script type="text/javascript" src='js/parse.js'></script>
+
+		<!-- Uglify -->
+		<script type="text/javascript" src='js/parse-js.js'></script>
+		<script type="text/javascript" src='js/process.js'></script>
+		
 		<script type="text/javascript" src='js/main.js'></script>
 	</head>
 	<body>
@@ -47,7 +51,7 @@
 
 		<section id="entry">
 			<h6>Enter the JavaScript you wish to observe</h6>
-			<textarea class="mono" rows="20" placeholder="var x = 0;"></textarea>
+			<textarea class="mono" rows="10" placeholder="var x = 0;"></textarea>
 			<button id="start">Start</button>
 			<span id="error" class="red">You JavaScript must not contain the variable name __exeJS__</span>
 		</section>
@@ -55,4 +59,4 @@
 		<section id="code">
 		</section>
 	</body>
- </html>
+</html>

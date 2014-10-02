@@ -31,7 +31,13 @@
 		{
 			var lines = js.split('\n');
 			__exeJS__.display(lines);
-			js = __exeJS__.parse(lines); //parsing mechanism found in parse.js
+			
+			var tree = parse(js);
+			console.log(tree);
+			js = gen_code(tree);
+			console.log(js);
+			
+			//js = __exeJS__.parse(lines); //parsing mechanism found in parse.js
 			__exeJS__.exec(js);
 		}
 	};
