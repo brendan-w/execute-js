@@ -80,11 +80,16 @@ window.__exeJS__.parse = function(js) {
 		}
 		else if(node instanceof AST_ForIn)
 		{
-			var line = node.start.line;
-			if(node.body instanceof AST_BlockStatement)
+			//if it's not a block, make it a block
+			if(!(node.body instanceof AST_BlockStatement))
 			{
-				node.body.body.unshift(buildSensor(line));
+				node.body = new AST_BlockStatement({
+					body:[node.body]
+				});
 			}
+
+			var line = node.start.line;
+			node.body.body.unshift(buildSensor(line));
 		}
 		else if(instanceofAny(node, [AST_Toplevel, AST_BlockStatement]))
 		{
