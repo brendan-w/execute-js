@@ -70,7 +70,7 @@ window.__exeJS__.parse = function(js) {
 	//transformation rules
 	function before(node, descend)
 	{
-		console.log(node);
+		//console.log(node);
 
 
 		//in case this is a single line statement (when it could be a block)
@@ -86,13 +86,13 @@ window.__exeJS__.parse = function(js) {
 		}
 
 
-
-		if(instanceofAny(node, [AST_If, AST_While, AST_For]))
+		//special handling
+		if(instanceofAny(node, [AST_If, AST_While, AST_For])) //sensors in conditions
 		{
 			var line = node.start.line;
 			node.condition = buildSensor(line, node.condition);
 		}
-		else if(node instanceof AST_Do)
+		else if(node instanceof AST_Do) //sensors in conditions
 		{
 			var line = node.end.line;
 			node.condition = buildSensor(line, node.condition);
@@ -102,11 +102,12 @@ window.__exeJS__.parse = function(js) {
 			var line = node.start.line;
 			node.body.body.unshift(buildSensor(line));
 		}
-		else if(instanceofAny(node, [AST_Try, AST_Catch, AST_Finally]))
+		else if(instanceofAny(node, [AST_Try, AST_Catch, AST_Finally])) //needs a sensor inside the body block
 		{
 			var line = node.start.line;
 			node.body.unshift(buildSensor(line));
 		}
+
 
 		//process body arrays
 		if(instanceofAny(node, [AST_Toplevel, AST_BlockStatement, AST_Defun, AST_Try, AST_Catch, AST_Finally]))
@@ -115,7 +116,7 @@ window.__exeJS__.parse = function(js) {
 			var statements = [];
 
 			node.body.forEach(function(n) {
-				//skip lines that have sensors embedded in the conditions
+				//skip lines that have sensors embedded in the conditions, or in the body block
 				
 				var skip = [AST_If, AST_While, AST_For, AST_ForIn, AST_Try, AST_Catch, AST_Finally];
 				

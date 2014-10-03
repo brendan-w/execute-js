@@ -16,7 +16,7 @@
 
 
 	//checks for name collisions with __exeJS__ (apparently, case insensitive regex is the fastest)
-	window.__exeJS__.isValid = function(js) { return true; };//!(/__exeJS__/i.test(js)); };
+	window.__exeJS__.isValid = function(js) { return !(/__exeJS__/i.test(js)); };
 
 
 	window.__exeJS__.init = function(js) {

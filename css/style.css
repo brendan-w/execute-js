@@ -4,6 +4,9 @@ body
 	font-family: Arial, sans-serif;
 }
 
+.fl { float:left;  }
+.fr { float:right; }
+
 h1 { font-size: 50pt; }
 h2 { font-size: 40pt; }
 h3 { font-size: 30pt; }
@@ -107,6 +110,11 @@ button
 	cursor: pointer;
 }
 
+button.big
+{
+	width:10em;
+}
+
 button:hover { background-color: rgb(220,40,40); }
 button:active { padding:3px 9px 1px 11px; }
 
@@ -132,23 +140,32 @@ button:active { padding:3px 9px 1px 11px; }
 	the entry bar
 */
 
+#entry > *
+{
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+
 #entry textarea
 {
 	display: block;
 	width:100%;
 	padding:0px;
-	margin:20px 0px;
+	margin-top:20px;
 	resize:none;
 }
 
-#entry button
+#entry #error { display:none; }
+
+#entry #libs
 {
-	float:right;
+	border-top:1px solid rgb(215,215,215);
+	padding-top: 20px;
 }
 
-#entry #error
+#entry #libs h6
 {
-	display:none;
+	margin-bottom: 20px;
 }
 
 

@@ -13,13 +13,14 @@
 
 		<!-- JS -->
 		<script type="text/javascript">
-			window.__exeJS__ = {}; //everything should be encapsulated in here
+			window.__exeJS__ = {}; //everything should be encapsulated here
 		</script>
 
 		<!-- UglifyJS2 -->
 		<script type="text/javascript" src='js/uglify/uglify.js'></script>
 		
-		<!--
+		<!-- all of these have been concatinated into uglify.js (see file for reasoning)
+
 		<script type="text/javascript" src='js/uglify/utils.js'></script>
 		<script type="text/javascript" src='js/uglify/ast.js'></script>
 		<script type="text/javascript" src='js/uglify/parse.js'></script>
@@ -60,10 +61,21 @@
 		</section>
 
 		<section id="entry">
-			<h6>Enter the JavaScript you wish to observe</h6>
-			<textarea class="mono" rows="10" placeholder="var x = 0;"></textarea>
-			<button id="start">Start</button>
-			<span id="error" class="red">You JavaScript must not contain the variable name __exeJS__</span>
+			<div>
+				<h6>Enter the JavaScript you wish to observe</h6>
+				<textarea class="mono" rows="10" placeholder="var x = 0;"></textarea>
+			</div>
+			<div>
+				<button id="start" class="fr big">Start</button>
+				<span id="error" class="red">You JavaScript must not contain the variable name __exeJS__</span>
+			</div>
+			<div id="libs">
+				<h6>Libraries</h6>
+				<button>jquery-1.11.1.js</button>
+				<button>mootools-core-1.5.1-full-nocompat.js</button>
+				<button>modernizr.custom.17893.js</button>
+				<button>underscore-1.7.0.js</button>
+			</div>
 		</section>
 
 		<section id="code">
