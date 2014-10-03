@@ -4,6 +4,25 @@
 
 window.__exeJS__.uglify = (function() {
 
+/*
+
+HTML form:
+
+<script type="text/javascript" src='js/uglify/utils.js'></script>
+<script type="text/javascript" src='js/uglify/ast.js'></script>
+<script type="text/javascript" src='js/uglify/parse.js'></script>
+<script type="text/javascript" src='js/uglify/transform.js'></script>
+<script type="text/javascript" src='js/uglify/scope.js'></script>
+<script type="text/javascript" src='js/uglify/output.js'></script>
+
+*/
+
+
+
+
+
+
+
 
 
 

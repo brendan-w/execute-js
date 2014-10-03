@@ -14,20 +14,24 @@
 		<!-- JS -->
 		<script type="text/javascript">
 			window.__exeJS__ = {}; //everything should be encapsulated here
+
+			window.__exeJS__.ajaxBuster = function() {
+				function warn() { console.log("AJAX has been disabled"); }
+
+				this.open = warn;
+				this.send = warn;
+				this.abort = warn;
+				this.getAllResponseHeaders = warn;
+				this.getResponseHeader = warn;
+				this.setRequestHeader = warn;
+			};
+
+			var XMLHttpRequest = __exeJS__.ajaxBuster;
+			var XDomainRequest = __exeJS__.ajaxBuster;
 		</script>
 
 		<!-- UglifyJS2 -->
 		<script type="text/javascript" src='js/uglify/uglify.js'></script>
-		
-		<!-- all of these have been concatinated into uglify.js (see file for reasoning)
-
-		<script type="text/javascript" src='js/uglify/utils.js'></script>
-		<script type="text/javascript" src='js/uglify/ast.js'></script>
-		<script type="text/javascript" src='js/uglify/parse.js'></script>
-		<script type="text/javascript" src='js/uglify/transform.js'></script>
-		<script type="text/javascript" src='js/uglify/scope.js'></script>
-		<script type="text/javascript" src='js/uglify/output.js'></script>
-		-->
 
 		<!-- exeJS -->
 		<script type="text/javascript" src='js/util.js'></script>
@@ -63,7 +67,7 @@
 		<section id="entry">
 			<div>
 				<h6>Enter the JavaScript you wish to observe</h6>
-				<textarea class="mono" rows="10" placeholder="var x = 0;"></textarea>
+				<textarea class="mono" rows="20" placeholder="var x = 0;"></textarea>
 			</div>
 			<div>
 				<button id="start" class="fr big">Start</button>
