@@ -93,7 +93,7 @@ window.__exeJS__.parse = function(js) {
 
 			node.body.forEach(function(n) {
 				//skip lines that have sensors embedded in the conditions
-				if(!n.sensor && !instanceofAny(node, [AST_If, AST_While, AST_For]))
+				if(!n.sensor && !instanceofAny(n, [AST_If, AST_While, AST_For, AST_ForIn]))
 				{
 					var line = n.start.line;
 					statements.push(buildSensor(line));
