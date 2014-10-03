@@ -4881,16 +4881,19 @@ function OutputStream(options) {
 return {
     parse:parse,
     TreeTransformer:TreeTransformer,
-    
-    AST_BlockStatement:AST_BlockStatement,
-    AST_SimpleStatement:AST_SimpleStatement,
-    AST_Call:AST_Call,
-    AST_Dot:AST_Dot,
-    AST_SymbolRef:AST_SymbolRef,
-    AST_Number: AST_Number,
-    AST_If:AST_If,
-    AST_While:AST_While,
-    AST_For:AST_For,
+
+    AST_Toplevel : AST_Toplevel,
+    AST_BlockStatement : AST_BlockStatement,
+    AST_SimpleStatement : AST_SimpleStatement,
+    AST_Call : AST_Call,
+    AST_Dot : AST_Dot,
+    AST_SymbolRef : AST_SymbolRef,
+    AST_Number :  AST_Number,
+    AST_If : AST_If,
+    AST_While : AST_While,
+    AST_For : AST_For,
+    AST_Do : AST_Do,
+    AST_ForIn : AST_ForIn,
 };
 
 })();

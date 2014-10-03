@@ -4,6 +4,7 @@ window.__exeJS__.parse = function(js) {
 	//bring these into scope
 	var TreeTransformer     = __exeJS__.uglify.TreeTransformer;
 
+	var AST_Toplevel        = __exeJS__.uglify.AST_Toplevel;
 	var AST_BlockStatement  = __exeJS__.uglify.AST_BlockStatement;
 	var AST_SimpleStatement = __exeJS__.uglify.AST_SimpleStatement;
 	var AST_Call            = __exeJS__.uglify.AST_Call;
@@ -13,8 +14,12 @@ window.__exeJS__.parse = function(js) {
 	var AST_If              = __exeJS__.uglify.AST_If;
 	var AST_While           = __exeJS__.uglify.AST_While;
 	var AST_For             = __exeJS__.uglify.AST_For;
+	var AST_Do              = __exeJS__.uglify.AST_Do;
+	var AST_ForIn           = __exeJS__.uglify.AST_ForIn;
 
 	//creates the node structure for a sensor callback
+	//calling with (line) returns a simpleStatement            __exeJS.l(line);
+	//calling with (line, argNode) returns an inline call      __exeJS.l(line, arg)
 	function buildSensor(line, argNode)
 	{
 		var args = [];
@@ -40,7 +45,10 @@ window.__exeJS__.parse = function(js) {
 
 		//if it's a lone statement, end it with a semicolon
 		if(argNode === undefined)
+		{
 			sensor = new AST_SimpleStatement({ body: sensor });
+			sensor.sensor = true; //add a "sensor" property to quickly skip these while processing blocks
+		}
 
 		return sensor;
 	}
@@ -64,6 +72,36 @@ window.__exeJS__.parse = function(js) {
 		{
 			var line = node.start.line;
 			node.condition = buildSensor(line, node.condition);
+		}
+		else if(node instanceof AST_Do)
+		{
+			var line = node.end.line;
+			node.condition = buildSensor(line, node.condition);
+		}
+		else if(node instanceof AST_ForIn)
+		{
+			var line = node.start.line;
+			if(node.body instanceof AST_BlockStatement)
+			{
+				node.body.body.unshift(buildSensor(line));
+			}
+		}
+		else if(instanceofAny(node, [AST_Toplevel, AST_BlockStatement]))
+		{
+			//rebuild the body array with sensors
+			var statements = [];
+
+			node.body.forEach(function(n) {
+				//skip lines that have sensors embedded in the conditions
+				if(!n.sensor && !instanceofAny(node, [AST_If, AST_While, AST_For]))
+				{
+					var line = n.start.line;
+					statements.push(buildSensor(line));
+				}
+				statements.push(n);
+			});
+
+			node.body = statements;
 		}
 
 		//descend(node, this);
