@@ -4886,6 +4886,9 @@ return {
     AST_Dot:AST_Dot,
     AST_SymbolRef:AST_SymbolRef,
     AST_Number: AST_Number,
+    AST_If:AST_If,
+    AST_While:AST_While,
+    AST_BlockStatement:AST_BlockStatement,
 };
 
 })();

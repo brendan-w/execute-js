@@ -33,7 +33,7 @@
 			__exeJS__.display(js);
 			js = __exeJS__.parse(js); //parsing mechanism found in parse.js
 			console.log(js);
-			//__exeJS__.exec(js);
+			__exeJS__.exec(js);
 		}
 	};
 
@@ -60,7 +60,8 @@
 		__exeJS__.lineEvents = [];
 		__exeJS__.lineTotals = [];
 		eval(js);
-		__exeJS__.animate();
+		if(__exeJS__.lineEvents.length > 0)
+			__exeJS__.animate();
 	};
 
 
