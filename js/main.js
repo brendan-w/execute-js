@@ -32,7 +32,7 @@
 		{
 			__exeJS__.display(js);
 			js = __exeJS__.parse(js); //parsing mechanism found in parse.js
-			//console.log(js);
+			console.log(js);
 			__exeJS__.exec(js);
 		}
 	};

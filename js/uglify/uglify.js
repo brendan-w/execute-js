@@ -4884,6 +4884,7 @@ return {
 
     AST_Toplevel : AST_Toplevel,
     AST_BlockStatement : AST_BlockStatement,
+    AST_Defun : AST_Defun,
     AST_SimpleStatement : AST_SimpleStatement,
     AST_Call : AST_Call,
     AST_Dot : AST_Dot,
@@ -4894,6 +4895,7 @@ return {
     AST_For : AST_For,
     AST_Do : AST_Do,
     AST_ForIn : AST_ForIn,
+
 };
 
 })();

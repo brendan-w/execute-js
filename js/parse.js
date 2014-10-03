@@ -16,6 +16,7 @@ window.__exeJS__.parse = function(js) {
 	var AST_For             = __exeJS__.uglify.AST_For;
 	var AST_Do              = __exeJS__.uglify.AST_Do;
 	var AST_ForIn           = __exeJS__.uglify.AST_ForIn;
+	var AST_Defun           = __exeJS__.uglify.AST_Defun;
 
 	//creates the node structure for a sensor callback
 	//calling with (line) returns a simpleStatement            __exeJS.l(line);
@@ -66,7 +67,22 @@ window.__exeJS__.parse = function(js) {
 	//transformation rules
 	function before(node, descend)
 	{
-		//console.log(node);
+		console.log(node);
+
+
+		//in case this is a single line statement (when it could be a block)
+		if(instanceofAny(node, [AST_If, AST_While, AST_For, AST_ForIn, AST_Do]))
+		{
+			//if it's not a block, make it a block (in order to accomodate extra sensor statements)
+			if(!(node.body instanceof AST_BlockStatement))
+			{
+				node.body = new AST_BlockStatement({
+					body:[node.body]
+				});
+			}
+		}
+
+
 
 		if(instanceofAny(node, [AST_If, AST_While, AST_For]))
 		{
@@ -80,18 +96,11 @@ window.__exeJS__.parse = function(js) {
 		}
 		else if(node instanceof AST_ForIn)
 		{
-			//if it's not a block, make it a block
-			if(!(node.body instanceof AST_BlockStatement))
-			{
-				node.body = new AST_BlockStatement({
-					body:[node.body]
-				});
-			}
 
 			var line = node.start.line;
 			node.body.body.unshift(buildSensor(line));
 		}
-		else if(instanceofAny(node, [AST_Toplevel, AST_BlockStatement]))
+		else if(instanceofAny(node, [AST_Toplevel, AST_BlockStatement, AST_Defun]))
 		{
 			//rebuild the body array with sensors
 			var statements = [];
