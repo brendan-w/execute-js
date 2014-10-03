@@ -4895,6 +4895,9 @@ return {
     AST_For : AST_For,
     AST_Do : AST_Do,
     AST_ForIn : AST_ForIn,
+    AST_Try : AST_Try,
+    AST_Catch : AST_Catch,
+    AST_Finally : AST_Finally,
 
 };
 

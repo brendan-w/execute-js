@@ -17,6 +17,9 @@ window.__exeJS__.parse = function(js) {
 	var AST_Do              = __exeJS__.uglify.AST_Do;
 	var AST_ForIn           = __exeJS__.uglify.AST_ForIn;
 	var AST_Defun           = __exeJS__.uglify.AST_Defun;
+	var AST_Try             = __exeJS__.uglify.AST_Try;
+    var AST_Catch           = __exeJS__.uglify.AST_Catch;
+    var AST_Finally         = __exeJS__.uglify.AST_Finally;
 
 	//creates the node structure for a sensor callback
 	//calling with (line) returns a simpleStatement            __exeJS.l(line);
@@ -94,24 +97,34 @@ window.__exeJS__.parse = function(js) {
 			var line = node.end.line;
 			node.condition = buildSensor(line, node.condition);
 		}
-		else if(node instanceof AST_ForIn)
+		else if(node instanceof AST_ForIn) //needs a sensor inside the body block
 		{
-
 			var line = node.start.line;
 			node.body.body.unshift(buildSensor(line));
 		}
-		else if(instanceofAny(node, [AST_Toplevel, AST_BlockStatement, AST_Defun]))
+		else if(instanceofAny(node, [AST_Try, AST_Catch, AST_Finally]))
+		{
+			var line = node.start.line;
+			node.body.unshift(buildSensor(line));
+		}
+
+		//process body arrays
+		if(instanceofAny(node, [AST_Toplevel, AST_BlockStatement, AST_Defun, AST_Try, AST_Catch, AST_Finally]))
 		{
 			//rebuild the body array with sensors
 			var statements = [];
 
 			node.body.forEach(function(n) {
 				//skip lines that have sensors embedded in the conditions
-				if(!n.sensor && !instanceofAny(n, [AST_If, AST_While, AST_For, AST_ForIn]))
+				
+				var skip = [AST_If, AST_While, AST_For, AST_ForIn, AST_Try, AST_Catch, AST_Finally];
+				
+				if(!n.sensor && !instanceofAny(n, skip))
 				{
 					var line = n.start.line;
 					statements.push(buildSensor(line));
 				}
+
 				statements.push(n);
 			});
 
