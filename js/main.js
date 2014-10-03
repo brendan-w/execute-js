@@ -32,7 +32,7 @@
 		{
 			__exeJS__.display(js);
 			js = __exeJS__.parse(js); //parsing mechanism found in parse.js
-			console.log(js);
+			//console.log(js);
 			__exeJS__.exec(js);
 		}
 	};
@@ -66,8 +66,8 @@
 
 
 	window.__exeJS__.displayGradient = new window.__exeJS__.gradient([
-		{ color:{r:245, g:245, b:245}, p:0    },
-		{ color:{r:255, g:255, b:76},  p:0.20 },
+		{ color:{r:255, g:255, b:140}, p:0    },
+		{ color:{r:255, g:255, b:76},  p:0.25 },
 		{ color:{r:255, g:145, b:35},  p:0.5  },
 		{ color:{r:255, g:0,   b:40},  p:1    }
 	]);

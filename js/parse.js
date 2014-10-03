@@ -66,7 +66,7 @@ window.__exeJS__.parse = function(js) {
 	//transformation rules
 	function before(node, descend)
 	{
-		console.log(node);
+		//console.log(node);
 
 		if(instanceofAny(node, [AST_If, AST_While, AST_For]))
 		{
