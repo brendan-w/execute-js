@@ -4879,7 +4879,13 @@ function OutputStream(options) {
 //return public functions
 
 return {
-    parse:parse
+    parse:parse,
+    TreeTransformer:TreeTransformer,
+    AST_SimpleStatement:AST_SimpleStatement,
+    AST_Call:AST_Call,
+    AST_Dot:AST_Dot,
+    AST_SymbolRef:AST_SymbolRef,
+    AST_Number: AST_Number,
 };
 
 })();

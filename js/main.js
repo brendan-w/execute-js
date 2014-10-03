@@ -15,7 +15,7 @@
 
 
 	//checks for name collisions with __exeJS__ (apparently, case insensitive regex is the fastest)
-	window.__exeJS__.isValid = function(js) { return !(/__exeJS__/i.test(js)); };
+	window.__exeJS__.isValid = function(js) { return true; };//!(/__exeJS__/i.test(js)); };
 
 
 	window.__exeJS__.init = function(js) {
@@ -32,7 +32,31 @@
 			var lines = js.split('\n');
 			__exeJS__.display(lines);
 
-			var ast = __exeJS__.uglify.parse("if(true)\n{\nvar x = 0; var b = 3;}else\n{\nvar y = 1;\n}\n");
+			//bring these into scope
+			var AST_SimpleStatement = __exeJS__.uglify.AST_SimpleStatement;
+			var AST_Call            = __exeJS__.uglify.AST_Call;
+			var AST_Dot             = __exeJS__.uglify.AST_Dot;
+			var AST_SymbolRef       = __exeJS__.uglify.AST_SymbolRef;
+			var AST_Number          = __exeJS__.uglify.AST_Number;
+
+			var lineNum = new AST_Number({ value:59 });
+
+			call = new AST_SimpleStatement({
+                body: new AST_Call({
+                    args: [lineNum],
+                    expression: new AST_Dot({
+                    	property:"l",
+                    	expression:new AST_SymbolRef({
+                    		name:"__exeJS__",
+                    	}),
+                    }),
+                }),
+            });
+
+			var ast = __exeJS__.uglify.parse(js);
+
+			ast.body.push(call);
+
 			console.log(ast);
 			console.log(ast.print_to_string({ beautify: true }));
 
