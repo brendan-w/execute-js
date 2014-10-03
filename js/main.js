@@ -5,12 +5,13 @@
 	window.__exeJS__.lineElements = [],
 
 	//the callback used for measuring line position
-	window.__exeJS__.l = function(num) {
+	window.__exeJS__.l = function(num, arg) {
 		__exeJS__.lineEvents.push(num);
 		if(__exeJS__.lineTotals[num] == undefined)
 			__exeJS__.lineTotals[num] = 1;
 		else
 			__exeJS__.lineTotals[num]++;
+		return arg;
 	};
 
 
@@ -29,46 +30,17 @@
 		}
 		else //normal execution
 		{
-			var lines = js.split('\n');
-			__exeJS__.display(lines);
-
-			//bring these into scope
-			var AST_SimpleStatement = __exeJS__.uglify.AST_SimpleStatement;
-			var AST_Call            = __exeJS__.uglify.AST_Call;
-			var AST_Dot             = __exeJS__.uglify.AST_Dot;
-			var AST_SymbolRef       = __exeJS__.uglify.AST_SymbolRef;
-			var AST_Number          = __exeJS__.uglify.AST_Number;
-
-			var lineNum = new AST_Number({ value:59 });
-
-			call = new AST_SimpleStatement({
-                body: new AST_Call({
-                    args: [lineNum],
-                    expression: new AST_Dot({
-                    	property:"l",
-                    	expression:new AST_SymbolRef({
-                    		name:"__exeJS__",
-                    	}),
-                    }),
-                }),
-            });
-
-			var ast = __exeJS__.uglify.parse(js);
-
-			ast.body.push(call);
-
-			console.log(ast);
-			console.log(ast.print_to_string({ beautify: true }));
-
-			//js = __exeJS__.parse(lines); //parsing mechanism found in parse.js
+			__exeJS__.display(js);
+			js = __exeJS__.parse(js); //parsing mechanism found in parse.js
+			console.log(js);
 			//__exeJS__.exec(js);
 		}
 	};
 
-	window.__exeJS__.display = function(lines) {
+	window.__exeJS__.display = function(js) {
 		var code = document.querySelector("#code");
 
-		lines.forEach(function(v, i) {
+		js.split('\n').forEach(function(v, i) {
 			var s = document.createElement('span');
 			var c = document.createElement('code');
 			var p = document.createElement('pre');
