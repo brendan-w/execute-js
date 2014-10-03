@@ -4,13 +4,15 @@ window.__exeJS__.parse = function(js) {
 	//bring these into scope
 	var TreeTransformer     = __exeJS__.uglify.TreeTransformer;
 
+	var AST_BlockStatement  = __exeJS__.uglify.AST_BlockStatement;
 	var AST_SimpleStatement = __exeJS__.uglify.AST_SimpleStatement;
 	var AST_Call            = __exeJS__.uglify.AST_Call;
 	var AST_Dot             = __exeJS__.uglify.AST_Dot;
 	var AST_SymbolRef       = __exeJS__.uglify.AST_SymbolRef;
 	var AST_Number          = __exeJS__.uglify.AST_Number;
 	var AST_If              = __exeJS__.uglify.AST_If;
-	var AST_BlockStatement  = __exeJS__.uglify.AST_BlockStatement;
+	var AST_While           = __exeJS__.uglify.AST_While;
+	var AST_For             = __exeJS__.uglify.AST_For;
 
 	//creates the node structure for a sensor callback
 	function buildSensor(line, argNode)
@@ -44,19 +46,28 @@ window.__exeJS__.parse = function(js) {
 	}
 
 
+	function instanceofAny(o, array)
+	{
+		for(var i = 0; i < array.length; i++)
+		{
+			if(o instanceof array[i]) return true;
+		}
+		return false;
+	}
+
 	//transformation rules
 	function before(node, descend)
 	{
 		console.log(node);
 
-		if(node instanceof AST_If)
+		if(instanceofAny(node, [AST_If, AST_While, AST_For]))
 		{
 			var line = node.start.line;
 			node.condition = buildSensor(line, node.condition);
 		}
-		else if(node instanceof AST_BlockStatement)
 
-		return node;
+		//descend(node, this);
+		//return node;
 	}
 
 

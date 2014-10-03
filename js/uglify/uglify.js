@@ -4881,6 +4881,8 @@ function OutputStream(options) {
 return {
     parse:parse,
     TreeTransformer:TreeTransformer,
+    
+    AST_BlockStatement:AST_BlockStatement,
     AST_SimpleStatement:AST_SimpleStatement,
     AST_Call:AST_Call,
     AST_Dot:AST_Dot,
@@ -4888,7 +4890,7 @@ return {
     AST_Number: AST_Number,
     AST_If:AST_If,
     AST_While:AST_While,
-    AST_BlockStatement:AST_BlockStatement,
+    AST_For:AST_For,
 };
 
 })();
