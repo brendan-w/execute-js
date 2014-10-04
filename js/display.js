@@ -1,13 +1,18 @@
 /*
 	This object is created once, for the given code
-	
+	the only public function is:
+
+		run(events, totals, settings)
+
+	call run() to re-render a new event sequence
  */
 window.__exeJS__.display = function(js) {
 
 	//init
 	var code     = document.querySelector("#code");
 	var progress = document.querySelector("#progress .value");
-	var lines    = [];
+	var lines    = []; //the line elements themselves
+	var display_totals = []; //persisting line totals for running in cumulative mode
 
 	var gradient = new __exeJS__.gradient([
 		{ color:{r:255, g:255, b:140}, p:0    },
@@ -17,8 +22,9 @@ window.__exeJS__.display = function(js) {
 	]);
 
 	//bring these into scope to clean up the code
-	var map   = __exeJS__.map;
-	var toCSS = __exeJS__.toCSS;
+	var map         = __exeJS__.map;
+	var toCSS       = __exeJS__.toCSS;
+	var findLargest = __exeJS__.findLargest;
 
 	//generate line elements
 	js.split('\n').forEach(function(v, i) {
@@ -36,16 +42,20 @@ window.__exeJS__.display = function(js) {
 
 
 	this.run = function(events, totals, settings) {
-		if(settings.cumulative)
-		{
+		if(!settings.cumulative)
 			reset();
-		}
 
 		if(settings.animate && (events.length > 0))
 		{
 			animate(events, totals, function() {
+				//animation has finished
 				prog_close();
 			});
+		}
+		else if(!settings.animate)
+		{
+			prog_close();
+			render(totals);
 		}
 	};
 
@@ -75,12 +85,27 @@ window.__exeJS__.display = function(js) {
 	function resetLine(l)  { lines[l].style.backgroundColor = "white"; }
 
 
+	/* line counter */
+	function addCount(l, c)
+	{
+		c = (c === undefined) ? 1 : c;
+
+		//create the array entry, if it doesn't exist
+		if(display_totals[l] === undefined)
+			display_totals[l] = 0;
+
+		display_totals[l] += c;
+	}
+
+
 	//erase the heat map
 	function reset()
 	{
-		for(var i = 0; i < lines.length; i++)
+		display_totals = [];
+		for(var l = 1; l < lines.length; l++)
 		{
-			resetLine(i);
+			lineOFF(l);
+			resetLine(l);
 		}
 	}
 
@@ -89,18 +114,9 @@ window.__exeJS__.display = function(js) {
 
 		prog_open();
 
-		var largest  = __exeJS__.findLargest(totals);
+		var largest = findLargest(totals);
 		var i = 0;
-		var counts = [];
 		var timer = setInterval(next, 60);
-
-		function increment(line)
-		{
-			if(counts[line] == undefined)
-				counts[line] = 1;
-			else
-				counts[line]++;
-		}
 
 		function next()
 		{
@@ -109,25 +125,48 @@ window.__exeJS__.display = function(js) {
 				clearInterval(timer);
 				lineOFF(events[events.length - 1]);
 				done();
-				return;
 			}
+			else
+			{
+				var l = events[i];
+				var pl = (i-1) >= 0 ? events[i-1] : null;
 
-			var l = events[i];
-			var pl = (i-1) >= 0 ? events[i-1] : null;
+				if(pl != null) lineOFF(pl); //disable the previous line
+				
+				lineON(l); //enable the current line
+				addCount(l); //advance the heat map
 
-			if(pl != null) lineOFF(pl); //disable the previous line
-			
-			lineON(l); //enable the current line
-			increment(l); //advance the heat map
+				var p = map(display_totals[l], 0, largest, 0, 1);
+				var color = gradient.get(p);
+				setLine(l, toCSS(color));
 
-			var p = map(counts[l], 0, largest, 0, 1);
-			var color = gradient.get(p);
-			setLine(l, toCSS(color));
+				//update the progress bar
+				prog_set(map(i, 0, events.length - 1, 0, 100));
 
-			//update the progress bar
-			prog_set(map(i, 0, events.length - 1, 0, 100));
-
-			i++;
+				i++;
+			}
 		}
 	}
+
+	//renders the results without animating
+	function render(totals)
+	{
+		var largest = findLargest(totals);
+
+		for(var l = 1; l < lines.length; l++)
+		{
+			if(totals[l] !== undefined)
+			{
+				var p = map(totals[l], 0, largest, 0, 1);
+				var color = gradient.get(p);
+				setLine(l, toCSS(color));
+			}
+			else
+			{
+				resetLine(l);
+			}
+		}
+	}
+
+
 };

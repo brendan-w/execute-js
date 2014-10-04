@@ -2,7 +2,7 @@
 //global settings
 window.__exeJS__.settings = {
 	cumulative:false,
-	animate:true,
+	animate:false,
 };
 
 //line numbers, in sequence, as they happen
@@ -37,7 +37,7 @@ window.__exeJS__.load = function(js) {
 };
 
 window.__exeJS__.exec = function(js) {
-	console.log(js);
+	//console.log(js);
 
 	__exeJS__.lineEvents = [];
 	__exeJS__.lineTotals = [];
