@@ -12,12 +12,12 @@ window.__exeJS__.display = function(js) {
 	var code     = document.querySelector("#code");
 	var scroll   = document.querySelector("#scroll");
 
-	var lines          = []; //the line elements themselves
-	var scrollLines    = []; //the line elements in the scroll bar
+	var lines       = []; //the line elements themselves
+	var scrollLines = []; //the line elements in the scroll bar
 	
 	//readouts
 	var progress   = document.querySelector("#progress .value");
-	var scale      = document.querySelector("#scale .fr");
+	var scale      = new __exeJS__.canvasGraph();
 	var totalCalls = document.querySelector("#totalCalls .fr");
 	var totalLines = document.querySelector("#totalLines .fr");
 
@@ -67,8 +67,11 @@ window.__exeJS__.display = function(js) {
 	//the main function
 	this.run = function(events, totals, settings) {
 		
+		//determine the highest frequency (for scaling)
 		var largest = findLargest(totals);
-		scale.innerHTML = largest;
+		
+		scale.run(totals, largest);
+
 		totalCalls.innerHTML = events.length;
 		totalLines.innerHTML = countSparse(totals);
 

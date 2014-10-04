@@ -26,7 +26,7 @@ pre.exe span { background-color:rgb(200,0,40) !important; }
 pre, .mono { font-family: monospace; }
 
 
-.dim, h6 span, p { color:rgb(128,128,128); }
+.dim, h6 span, p { color:rgb(100,0,20); }
 
 h6 span
 {
@@ -60,7 +60,7 @@ section
 	height:100%;
 	position: fixed;
 	left:0px;
-	border-right:1px solid rgb(215,215,215);
+	color:white;
 	z-index:1;
 }
 
@@ -126,17 +126,13 @@ header * { display: inline; }
 }
 #tools .div
 {
-	border-top:1px solid rgb(215,215,215);
+	border-top:1px solid rgb(160,0,32);
 	margin:20px 0px;
 }
 
 
 /* align the command bar */
-#run
-{
-	padding:20px;
-	margin-bottom:20px;
-}
+#run { margin-bottom:20px; }
 #run input  { width:100%;  }
 #run button
 {

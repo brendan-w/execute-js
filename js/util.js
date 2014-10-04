@@ -1,4 +1,6 @@
 
+window.__exeJS__.red = "rgb(200,0,40)";
+
 window.__exeJS__.htmlEntities = [
 	['&', '&amp;'],
 	['<', '&lt;'],
@@ -28,6 +30,7 @@ window.__exeJS__.findLargest = function(array) {
 	return largest;
 };
 
+//determines the length of a sparse array
 window.__exeJS__.countSparse = function(array) {
 	var total = 0;
 	array.forEach(function(v) {
