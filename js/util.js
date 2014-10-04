@@ -40,3 +40,7 @@ window.__exeJS__.countSparse = function(array) {
 window.__exeJS__.isValid = function(js) {
 	return !(/__exeJS__/i.test(js));
 };
+
+window.__exeJS__.scrollTo = function(el) {
+
+};

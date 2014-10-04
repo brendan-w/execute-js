@@ -2,7 +2,8 @@
 //global settings
 window.__exeJS__.settings = {
 	cumulative:false,
-	animate:false,
+	animate:true,
+	autoscroll:true,
 };
 
 //line numbers, in sequence, as they happen

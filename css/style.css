@@ -12,24 +12,34 @@ h2 { font-size: 40pt; }
 h3 { font-size: 30pt; }
 h4 { font-size: 20pt; }
 h5 { font-size: 16pt; }
-h6 { font-size: 14pt; }
+h6 { font-size: 12pt; }
 
-h6 span
-{
-	font-size: 10pt;
-	opacity: 0.5;
-	padding-left:1em;
-}
 
-.red    {            color:rgb(200,0,40); }
 .bk-red { background-color:rgb(200,0,40); }
+.red, a {            color:rgb(200,0,40); }
+a:hover {            color:rgb(255,0,0 ); }
 
 /* the "exe" class, denoting the running line */
 pre.exe      { background-color:rgb(200,0,40) !important; }
 pre.exe span { background-color:rgb(200,0,40) !important; }
 
-pre,
-.mono { font-family: monospace; }
+pre, .mono { font-family: monospace; }
+
+
+.dim, h6 span, p { color:rgb(128,128,128); }
+
+h6 span
+{
+	font-size: 10pt;
+	padding-left:1em;
+}
+
+p
+{
+	font-size: 10pt;
+	padding-bottom: 1em;
+	line-height: 1.1em;
+}
 
 
 section
@@ -52,7 +62,6 @@ section
 	left:0px;
 	border-right:1px solid rgb(215,215,215);
 	z-index:1;
-	padding:0px 20px;
 }
 
 #entry
@@ -85,6 +94,9 @@ section
 	display: none;
 }
 
+
+
+
 /*
 	the main bar
 */
@@ -93,56 +105,45 @@ header
 {
 	text-align: center;
 	padding-top:20px;
-	padding-bottom:100px;
+	padding-bottom:40px;
 }
 header * { display: inline; }
-
-footer
-{ 
-	position: absolute;
-	width:100%;
-	bottom:0px;
-	text-align: center;
-	font-size: 10pt;
-	color:rgb(150,150,150);
-}
-
-
-button
-{
-	color:white;
-	background-color: rgb(200,0,40);
-	border:none;
-	border-radius: 2px;
-	padding:2px 10px 2px 10px;
-	cursor: pointer;
-}
-
-button.big
-{
-	width:10em;
-}
-
-button:hover { background-color: rgb(220,40,40); }
-button:active { padding:3px 9px 1px 11px; }
-
-
 
 
 /*
 	The tool bar
 */
 
-#tools { display:none; }
+#tools
+{
+	display:none;
+	padding: 0px 20px;
+}
 #tools > *
 {
-	margin:20px 0px;
+	margin:10px 0px;
 	overflow:hidden;
 }
+#tools .div
+{
+	border-top:1px solid rgb(215,215,215);
+	margin:20px 0px;
+}
+
 
 /* align the command bar */
-#run button { float:right; }
-#run input { width:100%; }
+#run
+{
+	padding:20px;
+	margin-bottom:20px;
+}
+#run input  { width:100%;  }
+#run button
+{
+	float:right;
+	color:black;
+	background-color: white;
+}
 #run span
 {
 	display:block;
@@ -170,6 +171,7 @@ button:active { padding:3px 9px 1px 11px; }
 	border-bottom-right-radius: 2px;
 	border-bottom-left-radius: 2px;
 }
+
 
 #scale .scale span { padding:2px; }
 #scale .scale
@@ -211,7 +213,7 @@ button:active { padding:3px 9px 1px 11px; }
 	padding-top: 20px;
 }
 
-#entry #libs h6 { margin-bottom: 20px; }
+#entry #libs h5 { margin-bottom: 20px; }
 #entry #libs button
 {
 	margin-bottom: 5px;
@@ -272,3 +274,23 @@ pre > span
 	background: linear-gradient(to right,  #ffff8c 0%,#ffff4c 25%,#ff9123 50%,#ff0028 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffff8c', endColorstr='#ff0028',GradientType=1 ); /* IE6-9 */
 }
+
+
+
+button
+{
+	color:white;
+	background-color: rgb(200,0,40);
+	border:none;
+	border-radius: 2px;
+	padding:2px 10px 2px 10px;
+	cursor: pointer;
+}
+
+button.big
+{
+	width:10em;
+}
+
+button:hover { background-color: rgb(220,40,40); }
+button:active { padding:3px 9px 1px 11px; }

@@ -26,8 +26,8 @@
 				this.setRequestHeader = warn;
 			};
 
-			var XMLHttpRequest = __exeJS__.ajaxBuster;
-			var XDomainRequest = __exeJS__.ajaxBuster;
+			window.XMLHttpRequest = __exeJS__.ajaxBuster;
+			window.XDomainRequest = __exeJS__.ajaxBuster;
 		</script>
 
 		<!-- UglifyJS2 -->
@@ -46,22 +46,16 @@
 				<h3>Execute</h3>
 				<h1 class="red">JS</h1>
 			</header>
+			<div id="run" class="bk-red">
+				<button id="exe">Exe</button>
+				<span><input id="command" class="mono" type="text" placeholder="Enter command"></span>
+			</div>
 			<div id="tools">
-				<div id="run">
-					<button id="exe">Exe</button>
-					<span><input id="command" class="mono" type="text" placeholder="Enter command"></span>
-				</div>
 				<div id="progress">
 					<div class="bk-red top"></div>
 					<div class="bk-red value"></div>
 				</div>
-				<div id="scale">
-					<h6>Scale<span>calls per line</span></h6>
-					<div class="scale">
-						<span class="fl">1</span>
-						<span class="fr">2</span>
-					</div>
-				</div>
+				<div class="div"></div>
 				<div id="totalCalls">
 					<h6 class="fl">Calls<span>total executed</span></h6>
 					<h6 class="fr"></h6>
@@ -70,17 +64,29 @@
 					<h6 class="fl">Lines<span>total used</span></h6>
 					<h6 class="fr"></h6>
 				</div>
-				<!--
-				<div id="settings">
-					<input id="animate" type="checkbox">
-					<label for="animate">Animate</label>
-					<br>
-					<input id="cumulative" type="checkbox">
-					<label for="cumulative">Cumulative between commands</label>
+				<div id="scale">
+					<h6>Scale<span>calls per line</span></h6>
+					<div class="scale">
+						<span class="fl">1</span>
+						<span class="fr">2</span>
+					</div>
 				</div>
-				-->
+				<div class="div"></div>
+				<div>
+					<input class="fr" id="animate" type="checkbox">
+					<label class="fl" for="animate"><h6>Animate</h6></label>
+				</div>
+				<div>
+					<input class="fr" id="autoscroll" type="checkbox">
+					<label class="fl" for="autoscroll"><h6>Auto Scroll<span>during animation</span></h6></label>
+				</div>
+				<div class="div"></div>
+				<div>
+					<p>
+						ExecuteJS records script activity by preprocessing your script and injecting callbacks. Thanks to <a href="https://github.com/mishoo/UglifyJS2">UglifyJS2</a>, the submitted code is parsed into a syntax tree, modified, and recompiled for execution.
+					</p>
+				</div>
 			</div>
-			<footer>&copy; 2014 Brendan Whitfield</footer>
 		</section>
 
 		<section id="scroll">
@@ -88,7 +94,7 @@
 
 		<section id="entry">
 			<div>
-				<h6>Enter the JavaScript you wish to observe</h6>
+				<h5>Enter the JavaScript you wish to observe</h5>
 				<textarea class="mono" rows="20" placeholder="var x = 0;"></textarea>
 			</div>
 			<div>
@@ -96,7 +102,7 @@
 				<span id="error" class="fl red">You JavaScript must not contain the variable name __exeJS__</span>
 			</div>
 			<div id="libs">
-				<h6>Libraries</h6>
+				<h5>Libraries</h5>
 				<button>jquery-1.11.1.js</button>
 				<button>d3-v3.4.11.js</button>
 				<button>mootools-core-1.5.1-full-nocompat.js</button>

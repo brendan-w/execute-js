@@ -36,6 +36,7 @@ window.__exeJS__.display = function(js) {
 	var toCSS       = __exeJS__.toCSS;
 	var findLargest = __exeJS__.findLargest;
 	var countSparse = __exeJS__.countSparse;
+	var scrollTo    = __exeJS__.scrollTo;
 
 	//generate line elements
 	js.split('\n').forEach(function(v, i) {
@@ -63,6 +64,7 @@ window.__exeJS__.display = function(js) {
 	});
 
 
+	//the main function
 	this.run = function(events, totals, settings) {
 		
 		var largest = findLargest(totals);
@@ -109,6 +111,7 @@ window.__exeJS__.display = function(js) {
 	/* currently executing line */
 	function lineON(l)
 	{
+		scrollTo(lines[l]);
 		lines[l].className = "exe";
 		scrollLines[l].className = "exe";
 	}
