@@ -124,7 +124,8 @@ button:active { padding:3px 9px 1px 11px; }
 #run
 {
 	overflow:hidden;
-	padding:100px 0px;
+	padding-top:100px;
+	padding-bottom:20px;
 }
 #run button { float:right; }
 #run input { width:100%; }
@@ -133,6 +134,27 @@ button:active { padding:3px 9px 1px 11px; }
 	display:block;
 	overflow:hidden;
 	padding-right:10px;
+}
+
+#progress
+{
+	-webkit-transition:opacity 0.2s;
+    transition:opacity 0.2s;
+}
+
+#progress .top
+{
+	height:5px;
+	border-top-right-radius: 2px;
+	border-top-left-radius: 2px;
+}
+
+#progress .value
+{
+	height:15px;
+	width:0%;
+	border-bottom-right-radius: 2px;
+	border-bottom-left-radius: 2px;
 }
 
 

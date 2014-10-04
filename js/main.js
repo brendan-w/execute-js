@@ -80,6 +80,10 @@
 		var totals   = __exeJS__.lineTotals;
 		var largest  = __exeJS__.findLargest(totals);
 
+		var progress = document.querySelector("#progress .value");
+		progress.style.width = "0%";
+		progress.parentNode.style.opacity = 1;
+
 		var i = 0;
 		var counts = [];
 		var timer = setInterval(next, 60);
@@ -98,6 +102,7 @@
 			{
 				clearInterval(timer);
 				elements[events[events.length - 1]].className = "";
+				progress.parentNode.style.opacity = 0;
 				return;
 			}
 
@@ -114,6 +119,9 @@
 			var p = __exeJS__.map(counts[events[i]], 0, largest, 0, 1);
 			var color = window.__exeJS__.displayGradient.get(p);
 			line.style.backgroundColor = __exeJS__.toCSS(color);
+
+			//update the progress bar
+			progress.style.width = Math.round(__exeJS__.map(i, 0, events.length - 1, 0, 100)) + "%";
 
 			i++;
 		}

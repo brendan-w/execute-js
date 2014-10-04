@@ -71,7 +71,7 @@ window.__exeJS__.parse = function(js) {
 	//transformation rules
 	function before(node, descend)
 	{
-		console.log(node);
+		//console.log(node);
 
 
 		//in case this is a single line statement (when it could be a block)
