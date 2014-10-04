@@ -27,3 +27,8 @@ window.__exeJS__.findLargest = function(array) {
 	});
 	return largest;
 };
+
+//checks for name collisions with __exeJS__ (apparently, case insensitive regex is the fastest)
+window.__exeJS__.isValid = function(js) {
+	return !(/__exeJS__/i.test(js));
+};

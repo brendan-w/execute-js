@@ -1,4 +1,10 @@
 
+//global settings
+window.__exeJS__.settings = {
+	cumulative:false,
+	animate:true,
+};
+
 //line numbers, in sequence, as they happen
 window.__exeJS__.lineEvents = [];
 window.__exeJS__.lineTotals = [];
@@ -14,35 +20,33 @@ window.__exeJS__.l = function(num, arg) {
 };
 
 
-//checks for name collisions with __exeJS__ (apparently, case insensitive regex is the fastest)
-window.__exeJS__.isValid = function(js) { return !(/__exeJS__/i.test(js)); };
+window.__exeJS__.load = function(js) {
 
+	var parsedJS = __exeJS__.parse(js); //it's so simple when look at it like this...
 
-window.__exeJS__.init = function(js) {
 	if(window.location.hash == "#debug")
 	{
 		//print debug lines
-		var lines = js.split('\n');
-		js = __exeJS__.parse(lines);
-		lines = js.split('\n');
-		__exeJS__.display(lines);
+		__exeJS__.display = new __exeJS__.display(parsedJS);
 	}
 	else //normal execution
 	{
-		__exeJS__.display(js);
-		js = __exeJS__.parse(js); //parsing mechanism found in parse.js
-		console.log(js);
-		__exeJS__.exec(js);
+		__exeJS__.display = new __exeJS__.display(js);
+		__exeJS__.exec(parsedJS);
 	}
 };
 
 window.__exeJS__.exec = function(js) {
-	console.log("execute");
+	console.log(js);
+
 	__exeJS__.lineEvents = [];
 	__exeJS__.lineTotals = [];
+
 	eval(js);
-	if(__exeJS__.lineEvents.length > 0)
-		__exeJS__.animate();
+
+	__exeJS__.display.run(__exeJS__.lineEvents,
+						  __exeJS__.lineTotals,
+						  __exeJS__.settings);
 };
 
 
@@ -51,7 +55,9 @@ window.onload = function() {
 
 	//the start button
 	document.querySelector("#start").onclick = function() {
+
 		var js = document.querySelector("textarea").value;
+
 		if(__exeJS__.isValid(js))
 		{
 			document.querySelector("#entry").style.display = "none";
@@ -59,7 +65,7 @@ window.onload = function() {
 			document.querySelector("#tools").style.display = "block";
 			document.onkeypress = function(e) { if(e.keyCode == 13) exe(); };
 
-			__exeJS__.init(js);
+			__exeJS__.load(js);
 		}
 		else
 		{

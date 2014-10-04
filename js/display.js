@@ -1,5 +1,5 @@
 /*
-	this object is created once, for the given code
+	This object is created once, for the given code
 	
  */
 window.__exeJS__.display = function(js) {
@@ -35,6 +35,21 @@ window.__exeJS__.display = function(js) {
 	});
 
 
+	this.run = function(events, totals, settings) {
+		if(settings.cumulative)
+		{
+			reset();
+		}
+
+		if(settings.animate && (events.length > 0))
+		{
+			animate(events, totals, function() {
+				prog_close();
+			});
+		}
+	};
+
+
 	/* Progress bar */
 	function prog_set(p)
 	{
@@ -56,23 +71,21 @@ window.__exeJS__.display = function(js) {
 	/* currently executing line */
 	function lineON(l)  { lines[l].className = "exe"; }
 	function lineOFF(l) { lines[l].className = "";    }
-	function setLine(l, c) { lines[l].style.backgroundColor = c; }
-
+	function setLine(l, c) { lines[l].style.backgroundColor = c;       }
+	function resetLine(l)  { lines[l].style.backgroundColor = "white"; }
 
 
 	//erase the heat map
-	this.reset = function() {
-		lines.forEach(function(v) {
-
-		});
-	};
-
-
-
-
+	function reset()
+	{
+		for(var i = 0; i < lines.length; i++)
+		{
+			resetLine(i);
+		}
+	}
 
 
-	this.animate = function(events, totals) {
+	function animate(events, totals, done) {
 
 		prog_open();
 
@@ -94,28 +107,27 @@ window.__exeJS__.display = function(js) {
 			if(i >= events.length)
 			{
 				clearInterval(timer);
-				lines[events[events.length - 1]].className = "";
-				prog_open(close);
+				lineOFF(events[events.length - 1]);
+				done();
 				return;
 			}
 
-			//disable the previous line
-			if((i - 1) >= 0)
-				lineOFF((i - 1));
+			var l = events[i];
+			var pl = (i-1) >= 0 ? events[i-1] : null;
+
+			if(pl != null) lineOFF(pl); //disable the previous line
 			
-			//enable the current line
-			lineON(i);
+			lineON(l); //enable the current line
+			increment(l); //advance the heat map
 
-			increment(events[i]);
-
-			var p = map(counts[events[i]], 0, largest, 0, 1);
+			var p = map(counts[l], 0, largest, 0, 1);
 			var color = gradient.get(p);
-			setLine(i, toCSS(color));
+			setLine(l, toCSS(color));
 
 			//update the progress bar
 			prog_set(map(i, 0, events.length - 1, 0, 100));
 
 			i++;
 		}
-	};
+	}
 };
