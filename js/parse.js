@@ -7,6 +7,8 @@ window.__exeJS__.parse = function(js) {
 	var AST_Toplevel        = __exeJS__.uglify.AST_Toplevel;
 	var AST_BlockStatement  = __exeJS__.uglify.AST_BlockStatement;
 	var AST_SimpleStatement = __exeJS__.uglify.AST_SimpleStatement;
+	var AST_Defun           = __exeJS__.uglify.AST_Defun;
+	var AST_Function        = __exeJS__.uglify.AST_Function;
 	var AST_Call            = __exeJS__.uglify.AST_Call;
 	var AST_Dot             = __exeJS__.uglify.AST_Dot;
 	var AST_SymbolRef       = __exeJS__.uglify.AST_SymbolRef;
@@ -16,7 +18,6 @@ window.__exeJS__.parse = function(js) {
 	var AST_For             = __exeJS__.uglify.AST_For;
 	var AST_Do              = __exeJS__.uglify.AST_Do;
 	var AST_ForIn           = __exeJS__.uglify.AST_ForIn;
-	var AST_Defun           = __exeJS__.uglify.AST_Defun;
 	var AST_Try             = __exeJS__.uglify.AST_Try;
     var AST_Catch           = __exeJS__.uglify.AST_Catch;
     var AST_Finally         = __exeJS__.uglify.AST_Finally;
@@ -70,7 +71,7 @@ window.__exeJS__.parse = function(js) {
 	//transformation rules
 	function before(node, descend)
 	{
-		//console.log(node);
+		console.log(node);
 
 
 		//in case this is a single line statement (when it could be a block)
@@ -110,7 +111,7 @@ window.__exeJS__.parse = function(js) {
 
 
 		//process body arrays
-		if(instanceofAny(node, [AST_Toplevel, AST_BlockStatement, AST_Defun, AST_Try, AST_Catch, AST_Finally]))
+		if(instanceofAny(node, [AST_Toplevel, AST_BlockStatement, AST_Defun, AST_Function, AST_Try, AST_Catch, AST_Finally]))
 		{
 			//rebuild the body array with sensors
 			var statements = [];

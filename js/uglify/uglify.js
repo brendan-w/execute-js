@@ -4904,6 +4904,7 @@ return {
     AST_Toplevel : AST_Toplevel,
     AST_BlockStatement : AST_BlockStatement,
     AST_Defun : AST_Defun,
+    AST_Function : AST_Function,
     AST_SimpleStatement : AST_SimpleStatement,
     AST_Call : AST_Call,
     AST_Dot : AST_Dot,
