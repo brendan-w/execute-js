@@ -8,16 +8,18 @@
  */
 window.__exeJS__.display = function(js) {
 
-	//init
+	//code areas
 	var code     = document.querySelector("#code");
 	var scroll   = document.querySelector("#scroll");
-	var progress = document.querySelector("#progress .value");
-	var scale    = document.querySelector("#scale .fr");
+
+	var lines          = []; //the line elements themselves
+	var scrollLines    = []; //the line elements in the scroll bar
 	
-	var lines       = []; //the line elements themselves
-	var scrollLines = []; //the line elements in the scroll bar
-	
-	var display_totals = []; //persisting line totals for running in cumulative mode
+	//readouts
+	var progress   = document.querySelector("#progress .value");
+	var scale      = document.querySelector("#scale .fr");
+	var totalCalls = document.querySelector("#totalCalls .fr");
+	var totalLines = document.querySelector("#totalLines .fr");
 
 	var gradient = new __exeJS__.gradient([
 		{ color:{r:255, g:255, b:140}, p:0    },
@@ -25,11 +27,15 @@ window.__exeJS__.display = function(js) {
 		{ color:{r:255, g:145, b:35},  p:0.5  },
 		{ color:{r:255, g:0,   b:40},  p:1    }
 	]);
+	
+	//data
+	var display_totals = []; //persisting line totals for running in cumulative mode
 
 	//bring these into scope to clean up the code
 	var map         = __exeJS__.map;
 	var toCSS       = __exeJS__.toCSS;
 	var findLargest = __exeJS__.findLargest;
+	var countSparse = __exeJS__.countSparse;
 
 	//generate line elements
 	js.split('\n').forEach(function(v, i) {
@@ -61,6 +67,8 @@ window.__exeJS__.display = function(js) {
 		
 		var largest = findLargest(totals);
 		scale.innerHTML = largest;
+		totalCalls.innerHTML = events.length;
+		totalLines.innerHTML = countSparse(totals);
 
 		if(!settings.cumulative)
 			reset();

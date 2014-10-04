@@ -14,6 +14,13 @@ h4 { font-size: 20pt; }
 h5 { font-size: 16pt; }
 h6 { font-size: 14pt; }
 
+h6 span
+{
+	font-size: 10pt;
+	opacity: 0.5;
+	padding-left:1em;
+}
+
 .red    {            color:rgb(200,0,40); }
 .bk-red { background-color:rgb(200,0,40); }
 
@@ -119,8 +126,15 @@ button.big
 button:hover { background-color: rgb(220,40,40); }
 button:active { padding:3px 9px 1px 11px; }
 
+
+
+
+/*
+	The tool bar
+*/
+
 #tools { display:none; }
-#tools > div
+#tools > *
 {
 	margin:20px 0px;
 	overflow:hidden;
@@ -157,13 +171,23 @@ button:active { padding:3px 9px 1px 11px; }
 	border-bottom-left-radius: 2px;
 }
 
-#scale span { padding:2px; }
+#scale .scale span { padding:2px; }
+#scale .scale
+{
+	overflow: hidden;
+	margin-top: 10px;
+}
+
+
+
+
+
+
 
 
 /*
 	the entry bar
 */
-
 #entry > *
 {
 	overflow: hidden;
@@ -187,10 +211,16 @@ button:active { padding:3px 9px 1px 11px; }
 	padding-top: 20px;
 }
 
-#entry #libs h6
+#entry #libs h6 { margin-bottom: 20px; }
+#entry #libs button
 {
-	margin-bottom: 20px;
+	margin-bottom: 5px;
+	vertical-align: top;
 }
+
+
+
+
 
 
 

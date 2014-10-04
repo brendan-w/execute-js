@@ -28,6 +28,14 @@ window.__exeJS__.findLargest = function(array) {
 	return largest;
 };
 
+window.__exeJS__.countSparse = function(array) {
+	var total = 0;
+	array.forEach(function(v) {
+		total++;
+	});
+	return total;
+};
+
 //checks for name collisions with __exeJS__ (apparently, case insensitive regex is the fastest)
 window.__exeJS__.isValid = function(js) {
 	return !(/__exeJS__/i.test(js));
