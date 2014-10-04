@@ -10,8 +10,13 @@ window.__exeJS__.display = function(js) {
 
 	//init
 	var code     = document.querySelector("#code");
+	var scroll   = document.querySelector("#scroll");
 	var progress = document.querySelector("#progress .value");
-	var lines    = []; //the line elements themselves
+	var scale    = document.querySelector("#scale .fr");
+	
+	var lines       = []; //the line elements themselves
+	var scrollLines = []; //the line elements in the scroll bar
+	
 	var display_totals = []; //persisting line totals for running in cumulative mode
 
 	var gradient = new __exeJS__.gradient([
@@ -28,26 +33,41 @@ window.__exeJS__.display = function(js) {
 
 	//generate line elements
 	js.split('\n').forEach(function(v, i) {
+
+		var text = __exeJS__.escape(v);
+
+		//the main code viewer
+		var p = document.createElement('pre');
 		var s = document.createElement('span');
 		var c = document.createElement('code');
-		var p = document.createElement('pre');
 		p.appendChild(s);
 		p.appendChild(c);
 		s.innerHTML = (i+1);
-		c.innerHTML = __exeJS__.escape(v);
-		p.id = "l" + (i + 1);
+		c.innerHTML = text;
 		code.appendChild(p);
 		lines[i + 1] = p;
+
+		//the scroll bar
+		p = document.createElement('pre');
+		c = document.createElement('code');
+		p.appendChild(c);
+		c.innerHTML = text;
+		scroll.appendChild(p);
+		scrollLines[i + 1] = p
 	});
 
 
 	this.run = function(events, totals, settings) {
+		
+		var largest = findLargest(totals);
+		scale.innerHTML = largest;
+
 		if(!settings.cumulative)
 			reset();
 
 		if(settings.animate && (events.length > 0))
 		{
-			animate(events, totals, function() {
+			animate(events, totals, largest, function() {
 				//animation has finished
 				prog_close();
 			});
@@ -55,7 +75,7 @@ window.__exeJS__.display = function(js) {
 		else if(!settings.animate)
 		{
 			prog_close();
-			render(totals);
+			render(totals, largest);
 		}
 	};
 
@@ -79,10 +99,26 @@ window.__exeJS__.display = function(js) {
 
 
 	/* currently executing line */
-	function lineON(l)  { lines[l].className = "exe"; }
-	function lineOFF(l) { lines[l].className = "";    }
-	function setLine(l, c) { lines[l].style.backgroundColor = c;       }
-	function resetLine(l)  { lines[l].style.backgroundColor = "white"; }
+	function lineON(l)
+	{
+		lines[l].className = "exe";
+		scrollLines[l].className = "exe";
+	}
+	function lineOFF(l)
+	{
+		lines[l].className = "";
+		scrollLines[l].className = "";
+	}
+	function setLine(l, c)
+	{
+		lines[l].style.backgroundColor = c;
+		scrollLines[l].style.backgroundColor = c;
+	}
+	function resetLine(l)
+	{
+		lines[l].style.backgroundColor = "white";
+		scrollLines[l].style.backgroundColor = "white";
+	}
 
 
 	/* line counter */
@@ -110,11 +146,10 @@ window.__exeJS__.display = function(js) {
 	}
 
 
-	function animate(events, totals, done) {
+	function animate(events, totals, largest, done) {
 
 		prog_open();
 
-		var largest = findLargest(totals);
 		var i = 0;
 		var timer = setInterval(next, 60);
 
@@ -136,9 +171,12 @@ window.__exeJS__.display = function(js) {
 				lineON(l); //enable the current line
 				addCount(l); //advance the heat map
 
-				var p = map(display_totals[l], 0, largest, 0, 1);
-				var color = gradient.get(p);
-				setLine(l, toCSS(color));
+				if(display_totals[l] > 0)
+				{
+					var p = map(display_totals[l], 1, largest, 0, 1);
+					var color = gradient.get(p);
+					setLine(l, toCSS(color));
+				}
 
 				//update the progress bar
 				prog_set(map(i, 0, events.length - 1, 0, 100));
@@ -149,15 +187,13 @@ window.__exeJS__.display = function(js) {
 	}
 
 	//renders the results without animating
-	function render(totals)
+	function render(totals, largest)
 	{
-		var largest = findLargest(totals);
-
 		for(var l = 1; l < lines.length; l++)
 		{
-			if(totals[l] !== undefined)
+			if((totals[l] !== undefined) && (totals[l] > 0) )
 			{
-				var p = map(totals[l], 0, largest, 0, 1);
+				var p = map(totals[l], 1, largest, 0, 1);
 				var color = gradient.get(p);
 				setLine(l, toCSS(color));
 			}
