@@ -20,23 +20,18 @@ window.__exeJS__.canvasGraph = function() {
 
 		var frequency = compute(totals, largest);
 		var maxFreq = __exeJS__.findLargest(frequency);
-		console.log(totals);
-		console.log(frequency);
+		
+		//console.log(totals);
+		//console.log(frequency);
 
-		ctx.beginPath();
-		ctx.fillStyle = __exeJS__.red;
-		ctx.moveTo(0,0);
-
+		var points = [];
 		frequency.forEach(function(f, t) {
 			var x = map(t, 0, bins - 1, 0, canvas.width);
 			var y = map(f, 0, maxFreq, canvas.height, 0);
-			ctx.lineTo(x, y);
+			points.push({ x:x, y:y });
 		});
 
-		ctx.lineTo(canvas.width, 0);
-		ctx.lineTo(0,0);
-		ctx.closePath();
-		ctx.fill();
+		draw(points);
 	};
 
 	function compute(totals, largest)
@@ -57,6 +52,42 @@ window.__exeJS__.canvasGraph = function() {
 			frequency[bin]++;
 		});
 		return frequency;
+	}
+
+	function draw(points)
+	{
+		ctx.beginPath();
+		ctx.fillStyle = __exeJS__.red;
+		ctx.moveTo(0,0);
+
+		for(var i = 1; i < points.length; i++)
+		{
+			var a = points[i - 1];
+			var b = points[i];
+
+			/*
+					 midXA   midX   midXB
+				A-------------|--------------
+				|      |      |      |      |
+			midY--------------+--------------
+				|      |      |      |      |
+				--------------|-------------B
+			*/
+
+			var midX = (a.x + b.x) / 2;
+			var midY = (a.y + b.y) / 2;
+			var midXA = (midX + a.x) / 2;
+			var midXB = (midX + b.x) / 2;
+
+			ctx.lineTo(a.x, a.y);
+			ctx.quadraticCurveTo(midXA, a.y, midX, midY);
+			ctx.quadraticCurveTo(midXB, b.y, b.x, b.y);
+		}
+
+		ctx.lineTo(canvas.width, 0);
+		ctx.lineTo(0,0);
+		ctx.closePath();
+		ctx.fill();
 	}
 
 	function clear()
