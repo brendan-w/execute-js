@@ -3,75 +3,86 @@ window.__exeJS__.scroller = function() {
 
 	var map = __exeJS__.map;
 
-	var scroll      = document.querySelector("#scroll");
-	var frame       = document.querySelector("#scroll #frame");
-	var scroll_code = document.querySelector("#scroll code");
+	var tiny        = document.querySelector("#tiny");
+	var tiny_scroll = document.querySelector("#tiny #scroll");
+	var frame       = document.querySelector("#tiny #frame");
 
-	var h_window;
-	var h_line;
-	var h_body;
-	var h_scroll;
-	var h_frame;
-	var linesPerWindow;
+	var h_window;      //height of the window
+	var h_body;        //length of the full-sized code in pixels
+	var h_tiny;        //length of the tiny code in pixels
+	var h_frame;       //computed height for the window frame (over the tiny code)
 
+	var zoom;          //code / tinycode
+	var body_overflow; //pixels that full-sized code overflows off the screen
+	var tiny_overflow; //pixels that tiny code overflows off the screen
+	var tiny_top;
+	var tiny_bottom;
 
 	function setup()
 	{
 		h_window = window.innerHeight;
-		h_line   = document.querySelector("#code pre").clientHeight;
+
 		h_body   = document.querySelector("body").clientHeight;
-		h_scroll = scroll_code.clientHeight;
+		h_tiny   = document.querySelector("#tiny code").offsetHeight;
 
-		linesPerWindow = Math.floor(h_window / h_line);
-		h_frame = linesPerWindow * 1;
+		var h_line      = document.querySelector("#code pre").clientHeight;
+		var h_tiny_line = document.querySelector("#tiny pre").clientHeight;
 
+		//compute the zoom ratio
+		zoom = h_line / h_tiny_line;
+
+		//compute overflows
+		tiny_overflow = h_tiny - h_window;
+		body_overflow = h_body - h_window;
+		
+		h_frame = Math.floor(h_window / zoom);
 		frame.style.height = h_frame + "px";
 
+		//compute the top and bottom of the tiny code
+		tiny_top    = h_frame / 2;
+		tiny_bottom = Math.min(h_window, h_tiny) - tiny_top;
 	}
 
-	//var scrollRatio = document.querySelector("body").clientHeight / document.querySelector("#scroll").clientHeight;
-	//console.log(scrollRatio);
-
-	//event handlers
-
-	window.onscroll = scrollBar;
-
-	scroll.onmousedown = scrollText;
-	scroll.onmousemove = function(e) {
-		if(e.buttons === 1)
-			scrollText(e);
-	};
 
 	//scale computers
-
-	function scrollText(e)
+	function scrollTiny(e)
 	{
-		var scroll_pos = e.clientY;
+		//console.log(e.target);
+		var clickY = e.clientY;
 
-		var top    = h_frame / 2;
-		var bottom = h_window - top;
+		//clamp the click value to the code length constraints
+		clickY = Math.min(Math.max(clickY, tiny_top), tiny_bottom);
 
-		scroll_pos = Math.min(Math.max(scroll_pos, top), bottom);
-		var px = Math.round(map(scroll_pos, top, bottom, 0, (h_body - h_window)));
+		//map the click range to the body scroll range
+		var body_px = map(clickY, tiny_top, tiny_bottom, 0, body_overflow);
+		body_px = Math.round(body_px);
 
-		setPos(px, (scroll_pos - top));
+		//update display
+		frame.style.top = (clickY - tiny_top) + "px";
+		window.scrollTo(0, body_px);
+		if(tiny_overflow > 0)
+		{
+			var tiny_px = map(clickY, tiny_top, tiny_bottom, 0, tiny_overflow);
+			tiny_scroll.scrollTop = Math.round(tiny_px);
+		}
+		/*
+		*/
 	}
 
 	function scrollBar(e)
 	{
 		var page_pos = e.pageY;
 	}
+	
 
-	//the universal function for updating scroll position
-	function setPos(px, scroll_px)
-	{
-		//don't calculate this unless needed
-		if(scroll_px === undefined)
-			scroll_px = 0;
+	//event handlers
+	window.onscroll = scrollBar;
+	tiny.onmousedown = scrollTiny;
+	tiny.onmousemove = function(e) {
+		if(e.buttons === 1) //if left mouse down
+			scrollTiny(e);
+	};
 
-		frame.style.top = scroll_px + "px";
-		window.scrollTo(0, px);
-	}
 
 	setup();
 	window.onresize = setup;

@@ -9,11 +9,11 @@
 window.__exeJS__.display = function(js) {
 
 	//code areas
-	var code     = document.querySelector("#code");
-	var scroll   = document.querySelector("#scroll code");
+	var code = document.querySelector("#code");
+	var tiny = document.querySelector("#tiny code");
 
-	var lines       = []; //the line elements themselves
-	var scrollLines = []; //the line elements in the scroll bar
+	var lines     = []; //the line elements themselves
+	var tinyLines = []; //the line elements in the scroll bar
 	
 	//readouts
 	var progress   = document.querySelector("#progress .value");
@@ -55,11 +55,9 @@ window.__exeJS__.display = function(js) {
 
 		//the scroll bar
 		p = document.createElement('pre');
-		c = document.createElement('code');
-		p.appendChild(c);
-		c.innerHTML = text;
-		scroll.appendChild(p);
-		scrollLines[i + 1] = p
+		p.innerHTML = text;
+		tiny.appendChild(p);
+		tinyLines[i + 1] = p
 	});
 
 
@@ -119,22 +117,22 @@ window.__exeJS__.display = function(js) {
 	{
 		scrollTo(lines[l]);
 		lines[l].className = "exe";
-		scrollLines[l].className = "exe";
+		tinyLines[l].className = "exe";
 	}
 	function lineOFF(l)
 	{
 		lines[l].className = "";
-		scrollLines[l].className = "";
+		tinyLines[l].className = "";
 	}
 	function setLine(l, c)
 	{
 		lines[l].style.backgroundColor = c;
-		scrollLines[l].style.backgroundColor = c;
+		tinyLines[l].style.backgroundColor = c;
 	}
 	function resetLine(l)
 	{
 		lines[l].style.backgroundColor = "white";
-		scrollLines[l].style.backgroundColor = "white";
+		tinyLines[l].style.backgroundColor = "white";
 	}
 
 
