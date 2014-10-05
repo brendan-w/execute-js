@@ -17,7 +17,6 @@ window.__exeJS__.display = function(js) {
 	
 	//readouts
 	var progress   = document.querySelector("#progress .value");
-	var scale      = new __exeJS__.canvasGraph();
 	var totalCalls = document.querySelector("#totalCalls .fr");
 	var totalLines = document.querySelector("#totalLines .fr");
 
@@ -63,9 +62,9 @@ window.__exeJS__.display = function(js) {
 		scrollLines[i + 1] = p
 	});
 
-	window.onscroll = function(e) {
 
-	};
+	var scale    = new __exeJS__.canvasGraph();
+	var scroller = new __exeJS__.scroller();
 
 
 	//the main function
@@ -100,7 +99,7 @@ window.__exeJS__.display = function(js) {
 	/* Progress bar */
 	function prog_set(p)
 	{
-		progress.style.width = Math.round(p) + "%";
+		progress.style.width = Math.max(Math.round(p), 1) + "%";
 	}
 
 	function prog_open()

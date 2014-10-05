@@ -147,7 +147,6 @@ window.__exeJS__.parse = function(js) {
 
 	//build the initial AST
 	var ast = __exeJS__.uglify.parse(js);
-	console.log(ast);
 	
 	//traverse the tree
 	var new_ast = ast.transform(new TreeTransformer(before));
