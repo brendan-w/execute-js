@@ -2,7 +2,7 @@
 //global settings
 window.__exeJS__.settings = {
 	cumulative:false,
-	animate:true,
+	animate:false,
 	autoscroll:true,
 };
 

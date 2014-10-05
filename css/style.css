@@ -16,8 +16,10 @@ h6 { font-size: 12pt; }
 
 
 .bk-red { background-color:rgb(200,0,40); }
-.red, a {            color:rgb(200,0,40); }
-a:hover {            color:rgb(255,0,0 ); }
+.red,   {            color:rgb(200,0,40); }
+
+a       { color:rgb(100,0,20); }
+a:hover { color:rgb(50,0,00); }
 
 /* the "exe" class, denoting the running line */
 pre.exe      { background-color:rgb(200,0,40) !important; }
@@ -173,7 +175,7 @@ header * { display: inline; }
 #scale h6 { margin-bottom: 10px; }
 #scale canvas, #scale .axis { display:block; }
 #scale .axis { overflow: hidden; }
-#scale .axis span { padding:3px; }
+#scale .axis * { padding:3px; }
 
 
 
