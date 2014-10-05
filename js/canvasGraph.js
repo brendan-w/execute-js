@@ -1,9 +1,10 @@
 
 window.__exeJS__.canvasGraph = function() {
-	var canvas = document.querySelector("#tools canvas");
+	var canvas = document.querySelector("#scale canvas");
+	var max = document.querySelector("#scale .axis .fr");
 
 	canvas.width = document.querySelector("#main").clientWidth - 40;
-	canvas.height = 60;
+	canvas.height = 80;
 
 	var ctx = canvas.getContext("2d");
 
@@ -12,11 +13,16 @@ window.__exeJS__.canvasGraph = function() {
 	var findLargest = __exeJS__.findLargest;
 	var countSparse = __exeJS__.countSparse;
 
-	var bins = 10; //binning is neccessary to show a clean trend line
+
+	var bins = 36; //binning is neccessary to show a clean trend line
+	var base = 5;
+
 
 	this.run = function(totals, largest) {
 
 		clear();
+
+		max.innerHTML = largest;
 
 		var frequency = compute(totals, largest);
 		var maxFreq = __exeJS__.findLargest(frequency);
@@ -26,8 +32,8 @@ window.__exeJS__.canvasGraph = function() {
 
 		var points = [];
 		frequency.forEach(function(f, t) {
-			var x = map(t, 0, bins - 1, 0, canvas.width);
-			var y = map(f, 0, maxFreq, canvas.height, 0);
+			var x = map(t, 0, frequency.length - 1, 0, canvas.width);
+			var y = map(f, 0, maxFreq, canvas.height - base, 0);
 			points.push({ x:x, y:y });
 		});
 
@@ -38,13 +44,13 @@ window.__exeJS__.canvasGraph = function() {
 	{
 		largest++; //hack to get the farthest edge value to fall into the last bin
 		var binSize = largest / bins;
+
 		var frequency = []; // [total] = count
 
 		for(var i = 0; i < bins; i++)
 		{
 			frequency[i] = 0;
 		}
-
 
 		totals.forEach(function(t) {
 			//compute the destination bin

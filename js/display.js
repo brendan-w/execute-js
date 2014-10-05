@@ -10,7 +10,7 @@ window.__exeJS__.display = function(js) {
 
 	//code areas
 	var code     = document.querySelector("#code");
-	var scroll   = document.querySelector("#scroll");
+	var scroll   = document.querySelector("#scroll code");
 
 	var lines       = []; //the line elements themselves
 	var scrollLines = []; //the line elements in the scroll bar
@@ -62,6 +62,10 @@ window.__exeJS__.display = function(js) {
 		scroll.appendChild(p);
 		scrollLines[i + 1] = p
 	});
+
+	window.onscroll = function(e) {
+
+	};
 
 
 	//the main function

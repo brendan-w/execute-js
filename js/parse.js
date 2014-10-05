@@ -21,6 +21,7 @@ window.__exeJS__.parse = function(js) {
 	var AST_Try             = __exeJS__.uglify.AST_Try;
     var AST_Catch           = __exeJS__.uglify.AST_Catch;
     var AST_Finally         = __exeJS__.uglify.AST_Finally;
+    var AST_Object          = __exeJS__.uglify.AST_Object;
 
 	//creates the node structure for a sensor callback
 	//calling with (line) returns a simpleStatement            __exeJS.l(line);
@@ -108,7 +109,13 @@ window.__exeJS__.parse = function(js) {
 			var line = node.start.line;
 			node.body.unshift(buildSensor(line));
 		}
-
+		else if(node instanceof AST_Object)
+		{
+			node.properties.forEach(function(key) {
+				var line = key.start.line;
+				key.value = buildSensor(line, key.value);
+			});
+		}
 
 		//process body arrays
 		if(instanceofAny(node, [AST_Toplevel, AST_BlockStatement, AST_Defun, AST_Function, AST_Try, AST_Catch, AST_Finally]))

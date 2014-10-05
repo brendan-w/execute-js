@@ -169,12 +169,10 @@ header * { display: inline; }
 }
 
 
-#scale .scale span { padding:2px; }
-#scale .scale
-{
-	overflow: hidden;
-	margin-top: 10px;
-}
+#scale h6 { margin-bottom: 10px; }
+#scale canvas, #scale .axis { display:block; }
+#scale .axis { overflow: hidden; }
+#scale .axis span { padding:3px; }
 
 
 
