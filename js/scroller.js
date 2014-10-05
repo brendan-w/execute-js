@@ -57,21 +57,22 @@ window.__exeJS__.scroller = function() {
 		var body_px = map(clickY, tiny_top, tiny_bottom, 0, body_overflow);
 		body_px = Math.round(body_px);
 
-		//update display
-		frame.style.top = (clickY - tiny_top) + "px";
+		//update display (fires scrollBar() )
 		window.scrollTo(0, body_px);
-		if(tiny_overflow > 0)
-		{
-			var tiny_px = map(clickY, tiny_top, tiny_bottom, 0, tiny_overflow);
-			tiny_scroll.scrollTop = Math.round(tiny_px);
-		}
-		/*
-		*/
 	}
 
+	//update display
 	function scrollBar(e)
 	{
-		var page_pos = e.pageY;
+		var tiny_px = map(e.pageY, 0, body_overflow, tiny_top, tiny_bottom);
+		
+		frame.style.top = (tiny_px - tiny_top) + "px";
+
+		if(tiny_overflow > 0)
+		{
+			var tiny_scroll_px = map(e.pageY, 0, body_overflow, 0, tiny_overflow);
+			tiny_scroll.scrollTop = Math.round(tiny_scroll_px);
+		}
 	}
 	
 
