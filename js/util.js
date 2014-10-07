@@ -47,3 +47,21 @@ window.__exeJS__.isValid = function(js) {
 window.__exeJS__.scrollTo = function(el) {
 
 };
+
+window.__exeJS__.disableAjax = function() {
+
+	function ajaxBuster()
+	{
+		function warn() { console.log("AJAX has been disabled"); }
+
+		this.open = warn;
+		this.send = warn;
+		this.abort = warn;
+		this.getAllResponseHeaders = warn;
+		this.getResponseHeader = warn;
+		this.setRequestHeader = warn;
+	}
+
+	window.XMLHttpRequest = ajaxBuster;
+	window.XDomainRequest = ajaxBuster;
+};

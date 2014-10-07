@@ -14,20 +14,6 @@
 		<!-- JS -->
 		<script type="text/javascript">
 			window.__exeJS__ = {}; //everything should be encapsulated here
-
-			window.__exeJS__.ajaxBuster = function() {
-				function warn() { console.log("AJAX has been disabled"); }
-
-				this.open = warn;
-				this.send = warn;
-				this.abort = warn;
-				this.getAllResponseHeaders = warn;
-				this.getResponseHeader = warn;
-				this.setRequestHeader = warn;
-			};
-
-			window.XMLHttpRequest = __exeJS__.ajaxBuster;
-			window.XDomainRequest = __exeJS__.ajaxBuster;
 		</script>
 
 		<!-- UglifyJS2 -->

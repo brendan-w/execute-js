@@ -53,6 +53,8 @@ window.__exeJS__.exec = function(js) {
 
 window.onload = function() {
 	
+	var textarea = document.querySelector("textarea");
+
 	var set_animate    = document.querySelector("#animate");
 	var set_autoscroll = document.querySelector("#autoscroll");
 
@@ -69,18 +71,39 @@ window.onload = function() {
 	}
 
 
+	document.querySelector("#libs").onclick = function(e) {
+		if(e.target.nodeName === "BUTTON")
+		{
+			var url = "http://people.rit.edu/bcw7044/tools/exejs/samples/" + e.target.textContent;
+
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", url);
+			xhr.onreadystatechange = function() {
+			    if((xhr.readyState == 4) && (xhr.status == 200))
+			    {
+			        textarea.value = xhr.responseText;
+			    }
+			}
+			xhr.send();
+		}
+	};
+
 	//the start button
 	document.querySelector("#start").onclick = function() {
 
-		var js = document.querySelector("textarea").value;
+		var js = textarea.value;
 
 		if(__exeJS__.isValid(js))
 		{
 			document.querySelector("#entry").style.display = "none";
 			document.querySelector("#code").style.display = "block";
 			document.querySelector("#tools").style.display = "block";
+			
+			//the two ways to execute code
 			document.onkeypress = function(e) { if(e.keyCode == 13) exe(); };
+			document.querySelector("#exe").onclick = exe;
 
+			__exeJS__.disableAjax();
 			__exeJS__.load(js);
 		}
 		else
@@ -88,7 +111,4 @@ window.onload = function() {
 			document.querySelector("#error").style.display = "inline";
 		}
 	};
-
-	//the exe button
-	document.querySelector("#exe").onclick = exe;
 };
