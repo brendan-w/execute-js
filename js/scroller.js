@@ -75,6 +75,8 @@ window.__exeJS__.scroller = function() {
 		}
 	}
 	
+	frame.style.display = "block";
+	window.scrollTo(0, 0);
 
 	//event handlers
 	window.onscroll = scrollBar;

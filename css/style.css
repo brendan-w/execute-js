@@ -284,6 +284,7 @@ pre > span
 
 #tiny #frame
 {
+	display:none; /* initially */
 	position: absolute;
 	top:0px;
 	left:0px;

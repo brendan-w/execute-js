@@ -38,7 +38,6 @@ window.__exeJS__.load = function(js) {
 };
 
 window.__exeJS__.exec = function(js) {
-	//console.log(js);
 
 	__exeJS__.lineEvents = [];
 	__exeJS__.lineTotals = [];
@@ -53,6 +52,22 @@ window.__exeJS__.exec = function(js) {
 
 
 window.onload = function() {
+	
+	var set_animate    = document.querySelector("#animate");
+	var set_autoscroll = document.querySelector("#autoscroll");
+
+
+	function exe()
+	{
+		//load settings
+		__exeJS__.settings.animate    = set_animate.checked;
+		__exeJS__.settings.autoscroll = set_autoscroll.checked;
+
+		//run
+		var js = document.querySelector("#command").value;
+		__exeJS__.exec(js);
+	}
+
 
 	//the start button
 	document.querySelector("#start").onclick = function() {
@@ -76,10 +91,4 @@ window.onload = function() {
 
 	//the exe button
 	document.querySelector("#exe").onclick = exe;
-
-	function exe()
-	{
-		var js = document.querySelector("#command").value;
-		__exeJS__.exec(js);
-	}
 };
