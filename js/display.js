@@ -99,7 +99,10 @@ window.__exeJS__.display = function(js) {
 
 		if(settings.animate && (events.length > 0))
 		{
-			animate(events, totals, largest);
+			animate(events,
+					totals,
+					largest,
+					settings.autoscroll);
 		}
 		else if(!settings.animate)
 		{
@@ -127,9 +130,11 @@ window.__exeJS__.display = function(js) {
 
 
 	/* currently executing line */
-	function lineON(l)
+	function lineON(l, autoscroll)
 	{
-		scrollTo(lines[l]);
+		if(autoscroll)
+			scrollTo(lines[l]);
+
 		lines[l].className = "exe";
 		tinyLines[l].className = "exe";
 	}
@@ -166,7 +171,7 @@ window.__exeJS__.display = function(js) {
 	}
 
 
-	function animate(events, totals, largest) {
+	function animate(events, totals, largest, autoscroll) {
 
 		prog_open();
 
@@ -200,7 +205,7 @@ window.__exeJS__.display = function(js) {
 
 				if(pl != null) lineOFF(pl); //disable the previous line
 				
-				lineON(l); //enable the current line
+				lineON(l, autoscroll); //enable the current line
 				addCount(l); //advance the heat map
 
 				//paint the line to form the heat map

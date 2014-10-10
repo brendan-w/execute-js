@@ -10,7 +10,7 @@
 
 //global settings
 window.__exeJS__.settings = {
-	animate:true,
+	animate:false,
 	autoscroll:true,
 };
 
@@ -84,16 +84,28 @@ window.onload = function() {
 	var set_autoscroll = document.querySelector("#autoscroll");
 
 
-	function exe()
+
+
+	function loadSettings()
 	{
-		//load settings
 		__exeJS__.settings.animate    = set_animate.checked;
 		__exeJS__.settings.autoscroll = set_autoscroll.checked;
+	}
 
-		//run
+	set_animate.onchange    = loadSettings;
+	set_autoscroll.onchange = loadSettings;
+
+
+
+
+	function exe()
+	{
+		loadSettings();
 		var js = document.querySelector("#command").value;
 		__exeJS__.exec(js);
 	}
+
+
 
 
 	document.querySelector("#libs").onclick = function(e) {
@@ -129,6 +141,7 @@ window.onload = function() {
 			document.querySelector("#exe").onclick = exe;
 			document.querySelector("#skip").onclick = __exeJS__.skip;
 
+			loadSettings();
 			__exeJS__.load(js);
 		}
 		else
