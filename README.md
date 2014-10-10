@@ -1,4 +1,4 @@
-execute-js
+Execute-JS
 ==========
 
-Visualizer for watching live Javascript execution
+Visualizer for watching Javascript as it executes in a browser
