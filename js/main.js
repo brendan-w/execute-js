@@ -1,7 +1,15 @@
 
+/*
+	Written by Brendan Whitfield
+	https://github.com/brendanwhitfield
+
+	Using UglifyJS2
+	https://github.com/mishoo/UglifyJS2
+*/
+
+
 //global settings
 window.__exeJS__.settings = {
-	cumulative:false,
 	animate:true,
 	autoscroll:true,
 };
@@ -21,7 +29,10 @@ window.__exeJS__.l = function(num, arg) {
 };
 
 
+//first time run
 window.__exeJS__.load = function(js) {
+
+	__exeJS__.disableAjax();
 
 	var parsedJS = __exeJS__.parse(js); //it's so simple when look at it like this...
 
@@ -37,6 +48,7 @@ window.__exeJS__.load = function(js) {
 	}
 };
 
+//eval a snippet of JS, and display the results
 window.__exeJS__.exec = function(js) {
 
 	__exeJS__.lineEvents = [];
@@ -48,6 +60,19 @@ window.__exeJS__.exec = function(js) {
 						  __exeJS__.lineTotals,
 						  __exeJS__.settings);
 };
+
+//cancel an animation
+window.__exeJS__.skip = function() {
+	if(typeof __exeJS__.display === "object")
+	{
+		__exeJS__.display.run(__exeJS__.lineEvents,
+							  __exeJS__.lineTotals);
+	}
+};
+
+
+
+
 
 
 
@@ -62,8 +87,8 @@ window.onload = function() {
 	function exe()
 	{
 		//load settings
-		//__exeJS__.settings.animate    = set_animate.checked;
-		//__exeJS__.settings.autoscroll = set_autoscroll.checked;
+		__exeJS__.settings.animate    = set_animate.checked;
+		__exeJS__.settings.autoscroll = set_autoscroll.checked;
 
 		//run
 		var js = document.querySelector("#command").value;
@@ -102,8 +127,8 @@ window.onload = function() {
 			//the two ways to execute code
 			document.onkeypress = function(e) { if(e.keyCode == 13) exe(); };
 			document.querySelector("#exe").onclick = exe;
+			document.querySelector("#skip").onclick = __exeJS__.skip;
 
-			__exeJS__.disableAjax();
 			__exeJS__.load(js);
 		}
 		else

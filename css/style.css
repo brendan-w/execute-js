@@ -145,12 +145,7 @@ header * { display: inline; }
 /* align the command bar */
 #run { margin-bottom:20px; }
 #run input  { width:100%;  }
-#run button
-{
-	float:right;
-	color:black;
-	background-color: white;
-}
+#run button { float:right; }
 #run span
 {
 	display:block;
@@ -158,30 +153,47 @@ header * { display: inline; }
 	padding-right:10px;
 }
 
+
+/* align the progress bar */
 #progress
 {
 	-webkit-transition:opacity 0.2s;
     transition:opacity 0.2s;
 }
+#progress button { float:right; }
+#progress .container { width:100%; }
+#progress span
+{
+	display:block;
+	overflow:hidden;
+	padding-right:4px;
+}
 
-#progress *
+
+
+#progress .container *
 {
 	background-color: white;
 }
 
-#progress .top
+#progress .container .top
 {
-	height:5px;
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	width:100%;
+	height:6px;
 }
 
-#progress .value
+#progress .container .value
 {
-	height:15px;
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	height:16px;
 	width:0%;
 }
 
 
-#scale h6 { margin-bottom: 10px; }
+#scale canvas { margin-top:10px; }
 #scale canvas, #scale .axis { display:block; }
 #scale .axis { overflow: hidden; }
 #scale .axis * { padding:3px; }
@@ -326,3 +338,9 @@ button.big
 
 button:hover { background-color: rgb(220,40,40); }
 button:active { padding:3px 9px 1px 11px; }
+
+#main button
+{
+	color:black;
+	background-color: white;
+}

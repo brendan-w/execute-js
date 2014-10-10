@@ -44,6 +44,7 @@ window.__exeJS__.isValid = function(js) {
 	return !(/__exeJS__/i.test(js));
 };
 
+//crude auto scroller, scrolls only if the element isn't already in the viewport
 window.__exeJS__.scrollTo = function(el) {
 	if(!__exeJS__.elementInViewport(el))
 		el.scrollIntoView(true);
@@ -56,6 +57,7 @@ window.__exeJS__.elementInViewport = function(el) {
 	return (element > current) && (element < (current + h_win));
 };
 
+//replaces XHR objects
 window.__exeJS__.disableAjax = function() {
 	
 	function warn() { console.log("AJAX has been disabled"); }

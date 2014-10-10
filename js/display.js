@@ -4,8 +4,8 @@
 
 		run(events, totals, settings)
 
-	call run() to re-render a new event sequence
  */
+
 window.__exeJS__.display = function(js) {
 
 	//code areas
@@ -16,20 +16,22 @@ window.__exeJS__.display = function(js) {
 	var tinyLines = []; //the line elements in the scroll bar
 	
 	//readouts
-	var progress     = document.querySelector("#progress .value");
-	var totalCalls   = document.querySelector("#totalCalls .fr");
-	var totalLines   = document.querySelector("#totalLines .fr");
-	var totalPercent = document.querySelector("#totalPercent .fr");
+	var progress      = document.querySelector("#progress");
+	var progressValue = document.querySelector("#progress .value");
+	var totalCalls    = document.querySelector("#totalCalls .fr");
+	var totalLines    = document.querySelector("#totalLines .fr");
+	var totalPercent  = document.querySelector("#totalPercent .fr");
 
+	//the timer used for animation
+	var timer = -1;
+
+	//heat map gradient (keep consistant with CSS)
 	var gradient = new __exeJS__.gradient([
 		{ color:{r:255, g:255, b:140}, p:0    },
 		{ color:{r:255, g:255, b:76},  p:0.25 },
 		{ color:{r:255, g:145, b:35},  p:0.5  },
 		{ color:{r:255, g:0,   b:40},  p:1    }
 	]);
-	
-	//data
-	var display_totals = []; //persisting line totals for running in cumulative mode
 
 	//bring these into scope to clean up the code
 	var map         = __exeJS__.map;
@@ -62,37 +64,45 @@ window.__exeJS__.display = function(js) {
 	});
 
 
+	//sub-components
 	var scale    = new __exeJS__.canvasGraph();
 	var scroller = new __exeJS__.scroller();
 
 
+
 	//the main function
+	//render or animate a new event sequence
+	//cancels previous animation
 	this.run = function(events, totals, settings) {
 		
-		//determine the highest frequency (for scaling)
-		var largest = findLargest(totals);
-		
-		scale.run(totals, largest);
+		reset();
 
-		totalCalls.innerHTML = events.length;
+		//default settings
+		if(!settings)
+		{
+			settings = {
+				animate:false,
+				autoscroll:true,
+			};
+		}
+
+
+		var largest = findLargest(totals);
 		var count = countSparse(totals);
 		var percent = Math.round(count/lines.length*10000)/100;
+		
+		totalCalls.innerHTML = events.length;
 		totalLines.innerHTML = count;
 		totalPercent.innerHTML = percent + "%";
 
-		if(!settings.cumulative)
-			reset();
+		scale.run(totals, largest); //paint the graph
 
 		if(settings.animate && (events.length > 0))
 		{
-			animate(events, totals, largest, function() {
-				//animation has finished
-				prog_close();
-			});
+			animate(events, totals, largest);
 		}
 		else if(!settings.animate)
 		{
-			prog_close();
 			render(totals, largest);
 		}
 	};
@@ -101,18 +111,18 @@ window.__exeJS__.display = function(js) {
 	/* Progress bar */
 	function prog_set(p)
 	{
-		progress.style.width = Math.max(Math.round(p), 1) + "%";
+		progressValue.style.width = Math.max(Math.round(p), 1) + "%";
 	}
 
 	function prog_open()
 	{
 		prog_set(0);
-		progress.parentNode.style.opacity = 1;
+		progress.style.opacity = 1;
 	}
 
 	function prog_close()
 	{
-		progress.parentNode.style.opacity = 0;
+		progress.style.opacity = 0;
 	}
 
 
@@ -140,23 +150,14 @@ window.__exeJS__.display = function(js) {
 	}
 
 
-	/* line counter */
-	function addCount(l, c)
-	{
-		c = (c === undefined) ? 1 : c;
-
-		//create the array entry, if it doesn't exist
-		if(display_totals[l] === undefined)
-			display_totals[l] = 0;
-
-		display_totals[l] += c;
-	}
 
 
 	//erase the heat map
 	function reset()
 	{
-		display_totals = [];
+		prog_close();
+		clearInterval(timer);
+
 		for(var l = 1; l < lines.length; l++)
 		{
 			lineOFF(l);
@@ -165,20 +166,32 @@ window.__exeJS__.display = function(js) {
 	}
 
 
-	function animate(events, totals, largest, done) {
+	function animate(events, totals, largest) {
 
 		prog_open();
 
 		var i = 0;
-		var timer = setInterval(next, 60);
+		var current_totals = [];
+		timer = setInterval(next, 60);
+
+		function addCount(l)
+		{
+			//create the array entry, if it doesn't exist
+			if(current_totals[l] === undefined)
+				current_totals[l] = 1;
+			else
+				current_totals[l]++;
+		}
+
 
 		function next()
 		{
 			if(i >= events.length)
 			{
+				//done
 				clearInterval(timer);
 				lineOFF(events[events.length - 1]);
-				done();
+				prog_close();
 			}
 			else
 			{
@@ -190,12 +203,10 @@ window.__exeJS__.display = function(js) {
 				lineON(l); //enable the current line
 				addCount(l); //advance the heat map
 
-				if(display_totals[l] > 0)
-				{
-					var p = map(display_totals[l], 1, largest, 0, 1);
-					var color = gradient.get(p);
-					setLine(l, toCSS(color));
-				}
+				//paint the line to form the heat map
+				var p = map(current_totals[l], 1, largest, 0, 1);
+				var color = gradient.get(p);
+				setLine(l, toCSS(color));
 
 				//update the progress bar
 				prog_set(map(i, 0, events.length - 1, 0, 100));
