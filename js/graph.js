@@ -42,9 +42,6 @@ window.__exeJS__.canvasGraph = function() {
 
 	function compute(totals, largest)
 	{
-		largest++; //hack to get the farthest edge value to fall into the last bin
-		var binSize = largest / bins;
-
 		var frequency = []; // [total] = count
 
 		for(var i = 0; i < bins; i++)
@@ -53,10 +50,15 @@ window.__exeJS__.canvasGraph = function() {
 		}
 
 		totals.forEach(function(t) {
-			//compute the destination bin
-			var bin = Math.floor(t / binSize);
-			frequency[bin]++;
+			if(t > 0)
+			{
+				//compute the destination bin
+				var bin = map(t, 1, largest, 0, bins - 1);
+				bin = Math.floor(bin);
+				frequency[bin]++;
+			}
 		});
+
 		return frequency;
 	}
 

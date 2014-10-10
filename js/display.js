@@ -16,9 +16,10 @@ window.__exeJS__.display = function(js) {
 	var tinyLines = []; //the line elements in the scroll bar
 	
 	//readouts
-	var progress   = document.querySelector("#progress .value");
-	var totalCalls = document.querySelector("#totalCalls .fr");
-	var totalLines = document.querySelector("#totalLines .fr");
+	var progress     = document.querySelector("#progress .value");
+	var totalCalls   = document.querySelector("#totalCalls .fr");
+	var totalLines   = document.querySelector("#totalLines .fr");
+	var totalPercent = document.querySelector("#totalPercent .fr");
 
 	var gradient = new __exeJS__.gradient([
 		{ color:{r:255, g:255, b:140}, p:0    },
@@ -74,7 +75,10 @@ window.__exeJS__.display = function(js) {
 		scale.run(totals, largest);
 
 		totalCalls.innerHTML = events.length;
-		totalLines.innerHTML = countSparse(totals);
+		var count = countSparse(totals);
+		var percent = Math.round(count/lines.length*10000)/100;
+		totalLines.innerHTML = count;
+		totalPercent.innerHTML = percent + "%";
 
 		if(!settings.cumulative)
 			reset();
