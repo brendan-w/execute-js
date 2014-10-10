@@ -49,11 +49,11 @@ window.__exeJS__.scrollTo = function(el) {
 };
 
 window.__exeJS__.disableAjax = function() {
+	
+	function warn() { console.log("AJAX has been disabled"); }
 
 	function ajaxBuster()
 	{
-		function warn() { console.log("AJAX has been disabled"); }
-
 		this.open = warn;
 		this.send = warn;
 		this.abort = warn;
@@ -64,4 +64,12 @@ window.__exeJS__.disableAjax = function() {
 
 	window.XMLHttpRequest = ajaxBuster;
 	window.XDomainRequest = ajaxBuster;
+
+	var activeX = window.ActiveXObject;
+	window.ActiveXObject = function(str) {
+		if(str === "Microsoft.XMLHTTP")
+			warn();
+		else
+			return activeX.apply(this, arguments);
+	};
 };

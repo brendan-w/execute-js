@@ -22,6 +22,8 @@ window.__exeJS__.canvasGraph = function() {
 
 		clear();
 
+		largest = Math.max(largest, 2);
+
 		max.innerHTML = largest;
 
 		var frequency = compute(totals, largest);

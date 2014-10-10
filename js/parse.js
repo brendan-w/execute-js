@@ -152,5 +152,5 @@ window.__exeJS__.parse = function(js) {
 	var new_ast = ast.transform(new TreeTransformer(before));
 
 	//send it back as raw JS
-	return new_ast.print_to_string({ beautify: true });
+	return new_ast.print_to_string({ beautify: false });
 };
