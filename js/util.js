@@ -1,5 +1,5 @@
 
-window.__exeJS__.red = "rgb(200,0,40)";
+window.__exeJS__.red = "rgb(176,0,46)";
 
 window.__exeJS__.htmlEntities = [
 	['&', '&amp;'],

@@ -15,15 +15,15 @@ h5 { font-size: 16pt; }
 h6 { font-size: 12pt; }
 
 
-.bk-red { background-color:rgb(200,0,40); }
-.red,   {            color:rgb(200,0,40); }
+.bk-red { background-color:rgb(176,0,46); }
+.red,   {            color:rgb(176,0,46); }
 
 a       { color:rgb(100,0,20); }
 a:hover { color:rgb(50,0,00); }
 
 /* the "exe" class, denoting the running line */
-pre.exe      { background-color:rgb(200,0,40) !important; }
-pre.exe span { background-color:rgb(200,0,40) !important; }
+pre.exe      { background-color:rgb(176,0,46) !important; }
+pre.exe span { background-color:rgb(176,0,46) !important; }
 
 pre, .mono { font-family: monospace; }
 
@@ -310,13 +310,13 @@ pre > span
 .scale
 {
 	background: #ffff8c; /* Old browsers */
-	background: -moz-linear-gradient(left,  #ffff8c 0%, #ffff4c 25%, #ff9123 50%, #ff0028 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffff8c), color-stop(25%,#ffff4c), color-stop(50%,#ff9123), color-stop(100%,#ff0028)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(left,  #ffff8c 0%,#ffff4c 25%,#ff9123 50%,#ff0028 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(left,  #ffff8c 0%,#ffff4c 25%,#ff9123 50%,#ff0028 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(left,  #ffff8c 0%,#ffff4c 25%,#ff9123 50%,#ff0028 100%); /* IE10+ */
-	background: linear-gradient(to right,  #ffff8c 0%,#ffff4c 25%,#ff9123 50%,#ff0028 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffff8c', endColorstr='#ff0028',GradientType=1 ); /* IE6-9 */
+	background: -moz-linear-gradient(left,  #ffff8c 0%, #ffff4c 25%, #ff9123 50%, #ff0000 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffff8c), color-stop(25%,#ffff4c), color-stop(50%,#ff9123), color-stop(100%,#ff0000)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(left,  #ffff8c 0%,#ffff4c 25%,#ff9123 50%,#ff0000 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(left,  #ffff8c 0%,#ffff4c 25%,#ff9123 50%,#ff0000 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(left,  #ffff8c 0%,#ffff4c 25%,#ff9123 50%,#ff0000 100%); /* IE10+ */
+	background: linear-gradient(to right,  #ffff8c 0%,#ffff4c 25%,#ff9123 50%,#ff0000 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffff8c', endColorstr='#ff0000',GradientType=1 ); /* IE6-9 */
 }
 
 
@@ -324,7 +324,7 @@ pre > span
 button
 {
 	color:white;
-	background-color: rgb(200,0,40);
+	background-color: rgb(176,0,46);
 	border:none;
 	border-radius: 2px;
 	padding:2px 10px 2px 10px;
@@ -336,7 +336,7 @@ button.big
 	width:10em;
 }
 
-button:hover { background-color: rgb(220,40,40); }
+button:hover { background-color: rgb(220,0,40); }
 button:active { padding:3px 9px 1px 11px; }
 
 #main button

@@ -28,9 +28,9 @@ window.__exeJS__.display = function(js) {
 	//heat map gradient (keep consistant with CSS)
 	var gradient = new __exeJS__.gradient([
 		{ color:{r:255, g:255, b:140}, p:0    },
-		{ color:{r:255, g:255, b:76},  p:0.25 },
-		{ color:{r:255, g:145, b:35},  p:0.5  },
-		{ color:{r:255, g:0,   b:40},  p:1    }
+		{ color:{r:255, g:255, b:76 }, p:0.25 },
+		{ color:{r:255, g:145, b:35 }, p:0.5  },
+		{ color:{r:245, g:0,   b:40  }, p:1    }
 	]);
 
 	//bring these into scope to clean up the code
