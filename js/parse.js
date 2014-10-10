@@ -22,6 +22,8 @@ window.__exeJS__.parse = function(js) {
 	var AST_Catch           = __exeJS__.uglify.AST_Catch;
 	var AST_Finally         = __exeJS__.uglify.AST_Finally;
 	var AST_Object          = __exeJS__.uglify.AST_Object;
+	var AST_Var             = __exeJS__.uglify.AST_Var;
+	var AST_VarDef          = __exeJS__.uglify.AST_VarDef;
 
 	//creates the node structure for a sensor callback
 	//calling with (line) returns a simpleStatement            __exeJS.l(line);
@@ -116,6 +118,14 @@ window.__exeJS__.parse = function(js) {
 				key.value = buildSensor(line, key.value);
 			});
 		}
+		else if(node instanceof AST_VarDef)
+		{
+			if(node.value !== null) //skip    var x;
+			{
+				var line = node.start.line;
+				node.value = buildSensor(line, node.value);
+			}
+		}
 
 		//process body arrays
 		var haveBodies = [
@@ -135,7 +145,7 @@ window.__exeJS__.parse = function(js) {
 
 			node.body.forEach(function(n) {
 
-				//skip lines that have sensors embedded in the conditions, or in the body block
+				//skip lines that have sensors embedded in the conditions, body block, or definitions, etc...
 				var skip = [
 					AST_If,
 					AST_While,
@@ -143,7 +153,8 @@ window.__exeJS__.parse = function(js) {
 					AST_ForIn,
 					AST_Try,
 					AST_Catch,
-					AST_Finally
+					AST_Finally,
+					AST_Var
 				];
 				
 				if(!n.sensor && !instanceofAny(n, skip))
@@ -165,6 +176,7 @@ window.__exeJS__.parse = function(js) {
 
 	//build the initial AST
 	var ast = __exeJS__.uglify.parse(js);
+	console.log(ast);
 	
 	//traverse the tree
 	var new_ast = ast.transform(new TreeTransformer(before));

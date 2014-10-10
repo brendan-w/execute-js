@@ -4907,6 +4907,8 @@ return {
     AST_Function : AST_Function,
     AST_Object : AST_Object,
     AST_SimpleStatement : AST_SimpleStatement,
+    AST_Var : AST_Var,
+    AST_VarDef : AST_VarDef,
     AST_Call : AST_Call,
     AST_Dot : AST_Dot,
     AST_SymbolRef : AST_SymbolRef,
