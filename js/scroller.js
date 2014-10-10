@@ -69,13 +69,14 @@ window.__exeJS__.scroller = function() {
 	//update display
 	function scrollBar(e)
 	{
-		var tiny_px = map(window.pageYOffset, 0, body_overflow, tiny_top, tiny_bottom);
+		var pos = window.pageYOffset;
+		var tiny_px = map(pos, 0, body_overflow, tiny_top, tiny_bottom);
 		
 		frame.style.top = (tiny_px - tiny_top) + "px";
 
 		if(tiny_overflow > 0)
 		{
-			var tiny_scroll_px = map(e.pageY, 0, body_overflow, 0, tiny_overflow);
+			var tiny_scroll_px = map(pos, 0, body_overflow, 0, tiny_overflow);
 			tiny_scroll.scrollTop = Math.round(tiny_scroll_px);
 		}
 	}
