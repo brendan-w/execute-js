@@ -45,7 +45,15 @@ window.__exeJS__.isValid = function(js) {
 };
 
 window.__exeJS__.scrollTo = function(el) {
+	if(!__exeJS__.elementInViewport(el))
+		el.scrollIntoView(true);
+};
 
+window.__exeJS__.elementInViewport = function(el) {
+	var element = el.offsetTop;
+	var current = window.pageYOffset;
+	var h_win = window.innerHeight;
+	return (element > current) && (element < (current + h_win));
 };
 
 window.__exeJS__.disableAjax = function() {

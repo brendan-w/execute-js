@@ -2,7 +2,7 @@
 //global settings
 window.__exeJS__.settings = {
 	cumulative:false,
-	animate:false,
+	animate:true,
 	autoscroll:true,
 };
 
@@ -62,8 +62,8 @@ window.onload = function() {
 	function exe()
 	{
 		//load settings
-		__exeJS__.settings.animate    = set_animate.checked;
-		__exeJS__.settings.autoscroll = set_autoscroll.checked;
+		//__exeJS__.settings.animate    = set_animate.checked;
+		//__exeJS__.settings.autoscroll = set_autoscroll.checked;
 
 		//run
 		var js = document.querySelector("#command").value;
