@@ -14,12 +14,11 @@ h4 { font-size: 20pt; }
 h5 { font-size: 16pt; }
 h6 { font-size: 12pt; }
 
+cite { font-size: 9pt; }
+
 
 .bk-red { background-color:rgb(176,0,46); }
 .red,   {            color:rgb(176,0,46); }
-
-a       { color:rgb(100,0,20); }
-a:hover { color:rgb(50,0,00); }
 
 /* the "exe" class, denoting the running line */
 pre.exe      { background-color:rgb(176,0,46) !important; }
@@ -27,8 +26,8 @@ pre.exe span { background-color:rgb(176,0,46) !important; }
 
 pre, .mono { font-family: monospace; }
 
-
-.dim, h6 span, p { color:rgb(100,0,20); }
+.dim, h6 span, p, a { color:rgb(100,0,20); }
+a:hover { color:rgb(50,0,00); }
 
 h6 span
 {
@@ -118,8 +117,9 @@ header
 	padding-top:20px;
 	padding-bottom:40px;
 }
-header * { display: inline; }
 
+header * { display: inline; }
+header cite { display:block; }
 
 /*
 	The tool bar
