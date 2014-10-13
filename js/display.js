@@ -43,6 +43,7 @@ window.__exeJS__.display = function(js) {
 	//generate line elements
 	js.split('\n').forEach(function(v, i) {
 
+		//escape HTML
 		var text = __exeJS__.escape(v);
 
 		//the main code viewer

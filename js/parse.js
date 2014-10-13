@@ -85,6 +85,17 @@ window.__exeJS__.parse = function(js) {
 					body:[node.body]
 				});
 			}
+
+			//if statements may have an ELSE
+			if((node instanceof AST_If) && (node.alternative !== null))
+			{
+				if(!(node.alternative instanceof AST_BlockStatement))
+				{
+					node.alternative = new AST_BlockStatement({
+						body:[node.alternative]
+					});
+				}
+			}
 		}
 
 
@@ -158,8 +169,6 @@ window.__exeJS__.parse = function(js) {
 			node.body = statements;
 		}
 
-		//descend(node, this);
-		//return node;
 	}
 
 
@@ -170,5 +179,5 @@ window.__exeJS__.parse = function(js) {
 	var new_ast = ast.transform(new TreeTransformer(before));
 
 	//send it back as raw JS
-	return new_ast.print_to_string({ beautify: false });
+	return new_ast.print_to_string({ beautify: true });
 };

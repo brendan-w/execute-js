@@ -4,7 +4,10 @@ window.__exeJS__.red = "rgb(176,0,46)";
 window.__exeJS__.htmlEntities = [
 	['&', '&amp;'],
 	['<', '&lt;'],
-	['>', '&gt;']
+	['>', '&gt;'],
+	['"', '&quot;'],
+	["'", '&#x27;'],
+	['`', '&#x60;']
 ];
 
 window.__exeJS__.escape = function(str) {
