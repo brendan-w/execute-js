@@ -22,6 +22,8 @@ window.__exeJS__.parse = function(js) {
 	var AST_Catch           = __exeJS__.uglify.AST_Catch;
 	var AST_Finally         = __exeJS__.uglify.AST_Finally;
 	var AST_Object          = __exeJS__.uglify.AST_Object;
+	var AST_Case            = __exeJS__.uglify.AST_Case;
+	var AST_Default         = __exeJS__.uglify.AST_Default;
 
 	//creates the node structure for a sensor callback
 	//calling with (line) returns a simpleStatement            __exeJS.l(line);
@@ -136,7 +138,9 @@ window.__exeJS__.parse = function(js) {
 			AST_Function,
 			AST_Try,
 			AST_Catch,
-			AST_Finally
+			AST_Finally,
+			AST_Case,
+			AST_Default
 		];
 
 		if(instanceofAny(node, haveBodies))
@@ -174,7 +178,8 @@ window.__exeJS__.parse = function(js) {
 
 	//build the initial AST
 	var ast = __exeJS__.uglify.parse(js);
-	
+	//console.log(ast);
+
 	//traverse the tree
 	var new_ast = ast.transform(new TreeTransformer(before));
 

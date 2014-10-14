@@ -4919,6 +4919,8 @@ return {
     AST_Try : AST_Try,
     AST_Catch : AST_Catch,
     AST_Finally : AST_Finally,
+    AST_Case : AST_Case,
+    AST_Default : AST_Default
 
 };
 
